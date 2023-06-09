@@ -12,13 +12,13 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.hblsistemas.uniparcentral.entidades.Pais;
-import com.hblsistemas.uniparcentral.repositorios.portas.PaisRepositorioPorta;
+import com.hblsistemas.uniparcentral.repositorios.portas.PaisPortaRepositorio;
 import com.hblsistemas.uniparcentral.servicos.JdbcConexao;
 import com.hblsistemas.uniparcentral.servicos.excecoes.BancoDadosExcecao;
 
 @Component
 @Primary
-public class PaisRepositorioImplementacao implements PaisRepositorioPorta {
+public class PaisImplementacaoRepositorio implements PaisPortaRepositorio {
 	
 	private Connection conn = null;
 	

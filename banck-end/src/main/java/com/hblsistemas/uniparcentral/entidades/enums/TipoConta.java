@@ -41,6 +41,8 @@ public enum TipoConta {
 			}
 		}
 		
-		throw new IllegalArgumentException("Código inválido! Código: " + codigo);
+		// throw new IllegalArgumentException("Código inválido! Código: " + codigo);
+		// provisório
+		return TipoConta.CONTA_CORRENTE;
 	}
 }

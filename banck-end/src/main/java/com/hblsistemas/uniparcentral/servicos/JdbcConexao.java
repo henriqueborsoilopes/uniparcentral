@@ -64,12 +64,12 @@ public class JdbcConexao {
 	}
 	
 	private static Properties carregarPropriedades() {
-			try (FileInputStream fs = new FileInputStream("src/main/resources/bancodados.properties")) {
-				Properties props = new Properties();
-				props.load(fs);
-				return props;
-			} catch (IOException e) {
-				throw new ArquivoNaoEncontradoExcecao(e.getMessage());
-			}
+		try (FileInputStream fs = new FileInputStream("src/main/resources/bancodados.properties")) {
+			Properties props = new Properties();
+			props.load(fs);
+			return props;
+		} catch (IOException e) {
+			throw new ArquivoNaoEncontradoExcecao(e.getMessage());
+		}
 	}
 }

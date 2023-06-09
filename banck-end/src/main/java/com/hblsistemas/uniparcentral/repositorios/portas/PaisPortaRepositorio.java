@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.hblsistemas.uniparcentral.entidades.Pais;
 
-public interface PaisRepositorioPorta {
+public interface PaisPortaRepositorio {
 	
 	public Pais inserir(Pais pais);
 	public List<Pais> acharTodos();

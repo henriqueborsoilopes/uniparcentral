@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 import com.hblsistemas.uniparcentral.entidades.abstratas.Pessoa;
+import com.hblsistemas.uniparcentral.entidades.enums.TipoConta;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,7 +36,7 @@ public class Conta implements Serializable {
 	public Conta() { }
 
 	public Conta(Long id, String registroAluno, Instant dataCadastro, String numero, String digito, Double saldo,
-			Integer tipoConta, Agencia agencia, Pessoa titular) {
+			TipoConta tipoConta, Agencia agencia, Pessoa titular) {
 		super();
 		this.id = id;
 		this.registroAluno = registroAluno;
@@ -43,7 +44,7 @@ public class Conta implements Serializable {
 		this.numero = numero;
 		this.digito = digito;
 		this.saldo = saldo;
-		this.tipoConta = tipoConta;
+		this.tipoConta = tipoConta.getCodigo();
 		this.agencia = agencia;
 		this.titular = titular;
 	}
@@ -96,12 +97,12 @@ public class Conta implements Serializable {
 		this.saldo = saldo;
 	}
 
-	public Integer getTipoConta() {
-		return tipoConta;
+	public TipoConta getTipoConta() {
+		return TipoConta.paraEnum(tipoConta);
 	}
 
-	public void setTipoConta(Integer tipoConta) {
-		this.tipoConta = tipoConta;
+	public void setTipoConta(TipoConta tipoConta) {
+		this.tipoConta = tipoConta.getCodigo();
 	}
 
 	public Agencia getAgencia() {
