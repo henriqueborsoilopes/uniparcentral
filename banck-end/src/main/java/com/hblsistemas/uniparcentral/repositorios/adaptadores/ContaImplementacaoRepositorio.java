@@ -115,19 +115,17 @@ public class ContaImplementacaoRepositorio implements ContaPortaRepositorio {
 	}
 
 	@Override
-	public void atualizar(Conta conta, Long id) {
+	public void atualizarSaldo(Double saldo, Long id) {
 		PreparedStatement st = null;
 		try {
 			conn = JdbcConexao.getConexao();
 			conn.setAutoCommit(false);
 			st = conn.prepareStatement(
 					"UPDATE conta " + 
-					"SET tipo = ?, ra = ?, agencia_id = ?" +
+					"SET saldo = ?" +
 					"WHERE conta.id = ?");
-			st.setInt(1, conta.getTipoConta().getCodigo());
-			st.setString(2, conta.getRegistroAluno());
-			st.setLong(3, conta.getAgencia().getId());
-			st.setLong(4, conta.getId());
+			st.setDouble(1, saldo);
+			st.setLong(2, id);
 			st.executeUpdate();
 			conn.commit();
 		} catch (SQLException e) {

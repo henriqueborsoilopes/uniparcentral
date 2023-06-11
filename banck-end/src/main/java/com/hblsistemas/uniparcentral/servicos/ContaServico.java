@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.hblsistemas.uniparcentral.entidades.Conta;
+import com.hblsistemas.uniparcentral.entidades.enums.TipoOperacao;
 import com.hblsistemas.uniparcentral.repositorios.portas.ContaPortaRepositorio;
 import com.hblsistemas.uniparcentral.servicos.validacoes.ContaValidacao;
 
@@ -30,9 +31,18 @@ public class ContaServico {
 		return contaRepositorioPorta.acharPorId(id);
 	}
 	
-	public void atualizar(Long id, Conta conta) {
-		ContaValidacao.validarTodosCampos(conta);
-		contaRepositorioPorta.atualizar(conta, id);
+	public void atualizarSaldo(Long id, Double saldo, TipoOperacao operacao) {
+		ContaValidacao.validarSaldo(saldo);
+		Conta conta = acharPorId(id);
+		switch (operacao) {
+		case ENTRADA:
+			conta.setSaldo(conta.getSaldo() + saldo);
+			break;
+		case SAIDA:
+			conta.setSaldo(conta.getSaldo() - saldo);
+			break;
+		}
+		contaRepositorioPorta.atualizarSaldo(saldo, id);
 	}
 	
 	public void deletar(Long id) {

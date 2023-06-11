@@ -115,7 +115,7 @@ public class PaisImplementacaoRepositorio implements PaisPortaRepositorio {
 					"WHERE pais.id == ?");
 			st.setString(1, pais.getNome());
 			st.setString(2, pais.getSigla());
-			st.setLong(3, pais.getId());
+			st.setLong(3, id);
 			conn.commit();
 			st.executeUpdate();
 		} catch (SQLException e) {

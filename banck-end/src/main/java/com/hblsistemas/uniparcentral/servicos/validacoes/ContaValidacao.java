@@ -9,6 +9,12 @@ public class ContaValidacao {
 		validarObjetoNulo(conta);
 		validarRegistroAluno(conta.getRegistroAluno());
 	}
+	
+	public static void validarSaldo(Double saldo) {
+		if (saldo == null) {
+			throw new ValidacaoExcecao("Erro! Campo Saldo está nulo.");
+		}
+	}
 
 	private static void validarObjetoNulo(Conta conta) {
 		if (conta == null) {

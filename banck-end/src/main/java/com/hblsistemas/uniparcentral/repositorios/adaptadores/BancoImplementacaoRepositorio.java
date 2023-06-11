@@ -114,7 +114,7 @@ public class BancoImplementacaoRepositorio implements BancoPortaRepositorio {
 					"WHERE banco.id = ?");
 			st.setString(1, banco.getNome());
 			st.setString(2, banco.getRegistroAluno());
-			st.setLong(3, banco.getId());
+			st.setLong(3, id);
 			st.executeUpdate();
 			conn.commit();
 		} catch (SQLException e) {

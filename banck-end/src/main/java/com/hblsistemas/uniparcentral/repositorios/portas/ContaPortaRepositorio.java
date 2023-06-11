@@ -9,6 +9,6 @@ public interface ContaPortaRepositorio {
 	public Conta inserir(Conta conta);
 	public List<Conta> acharTodos();
 	public Conta acharPorId(Long id);
-	public void atualizar(Conta conta, Long id);
+	public void atualizarSaldo(Double saldo, Long id);
 	public void deletar(Long id);
 }

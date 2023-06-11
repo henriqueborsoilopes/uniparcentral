@@ -1,7 +1,7 @@
 package com.hblsistemas.uniparcentral.entidades;
 
 import java.time.Instant;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.hblsistemas.uniparcentral.entidades.abstratas.Pessoa;
@@ -16,12 +16,12 @@ public class PessoaFisica extends Pessoa {
 	private String nome;
 	private String cpf;
 	private String rg;
-	private LocalDate dataNascimento;
+	private LocalDateTime dataNascimento;
 	
 	public PessoaFisica() { }
 
 	public PessoaFisica(Long id, String email, String registroAluno, Instant dataCadastro, String nome, String cpf,
-			String rg, LocalDate dataNascimento) {
+			String rg, LocalDateTime dataNascimento) {
 		super(id, email, registroAluno, dataCadastro);
 		this.nome = nome;
 		this.cpf = cpf;
@@ -53,11 +53,11 @@ public class PessoaFisica extends Pessoa {
 		this.rg = rg;
 	}
 
-	public LocalDate getDataNascimento() {
+	public LocalDateTime getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(LocalDate dataNascimento) {
+	public void setDataNascimento(LocalDateTime dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 }
