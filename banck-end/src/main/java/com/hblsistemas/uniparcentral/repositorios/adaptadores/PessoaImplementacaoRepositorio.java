@@ -155,8 +155,8 @@ public class PessoaImplementacaoRepositorio implements PessoaPortaRepositorio {
 			conn = JdbcConexao.getConexao();
 			st = conn.prepareStatement(
 					"DELETE " + 
-					"FROM banco " + 
-					"WHERE banco.id = ?");
+					"FROM pessoa " + 
+					"WHERE pessoa.id = ?");
 			st.setLong(1, id);
 			st.executeUpdate();
 		} catch (SQLException e) {
