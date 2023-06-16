@@ -11,31 +11,36 @@ import com.hblsistemas.uniparcentral.servicos.validacoes.CidadeValidacao;
 @Service
 public class CidadeServico {
 	
-	private final CidadePortaRepositorio cidadeRepositorioPorta;
+	private final CidadePortaRepositorio cidadePortaRepositorio;
+	private final EstadoServico estadoServico;
 	
-	public CidadeServico(CidadePortaRepositorio cidadeRepositorioPorta) {
-		this.cidadeRepositorioPorta = cidadeRepositorioPorta;
+	public CidadeServico(CidadePortaRepositorio cidadePortaRepositorio, EstadoServico estadoServico) {
+		this.cidadePortaRepositorio = cidadePortaRepositorio;
+		this.estadoServico = estadoServico;
 	}
 	
 	public void inserir(Cidade cidade) {
-		CidadeValidacao.validarTodosCampos(cidade);
-		cidadeRepositorioPorta.inserir(cidade);
+		CidadeValidacao.validarTodosCamposParaInserir(cidade);
+		cidadePortaRepositorio.inserir(cidade);
 	}
 	
 	public List<Cidade> acharTodos() {
-		return cidadeRepositorioPorta.acharTodos();
+		return cidadePortaRepositorio.acharTodos();
 	}
 	
 	public Cidade acharPorId(Long id) {
-		return cidadeRepositorioPorta.acharPorId(id);
+		Cidade cidade = cidadePortaRepositorio.acharPorId(id);
+		cidade.setEstado(estadoServico.acharPorId(cidade.getEstado().getId()));
+		return cidade;
 	}
 	
 	public void atualizar(Long id, Cidade cidade) {
-		CidadeValidacao.validarTodosCampos(cidade);
-		cidadeRepositorioPorta.atualizar(cidade, id);
+		CidadeValidacao.validarTodosCamposParaUpdate(cidade);
+		cidadePortaRepositorio.atualizar(cidade, id);
 	}
 	
 	public void deletar(Long id) {
-		cidadeRepositorioPorta.deletar(id);
+		cidadePortaRepositorio.acharPorId(id);
+		cidadePortaRepositorio.deletar(id);
 	}
 }

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -290,7 +291,7 @@ public class PessoaImplementacaoRepositorio implements PessoaPortaRepositorio {
 				rs.getString("nome"), 
 				rs.getString("cpf"), 
 				rs.getString("rg"), 
-				rs.getTimestamp("datanascimento").toLocalDateTime());
+				LocalDateTime.now());
 		return pessoa;
 	}
 	

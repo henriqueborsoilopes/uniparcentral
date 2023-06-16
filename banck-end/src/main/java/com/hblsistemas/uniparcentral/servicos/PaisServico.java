@@ -36,6 +36,7 @@ public class PaisServico {
 	}
 	
 	public void deletar(Long id) {
+		paisRepositorioPorta.acharPorId(id);
 		paisRepositorioPorta.deletar(id);
 	}
 }

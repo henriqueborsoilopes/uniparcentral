@@ -11,39 +11,40 @@ import java.util.List;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
-import com.hblsistemas.uniparcentral.entidades.Cidade;
-import com.hblsistemas.uniparcentral.entidades.Estado;
-import com.hblsistemas.uniparcentral.repositorios.portas.CidadePortaRepositorio;
+import com.hblsistemas.uniparcentral.entidades.Agencia;
+import com.hblsistemas.uniparcentral.repositorios.portas.AgenciaPortaRepositorio;
 import com.hblsistemas.uniparcentral.servicos.JdbcConexao;
 import com.hblsistemas.uniparcentral.servicos.excecoes.BancoDadosExcecao;
-import com.hblsistemas.uniparcentral.servicos.excecoes.ObjetoNaoEncontradoExcecao;
 
 @Component
 @Primary
-public class CidadeImplementacaoRepositorio implements CidadePortaRepositorio {
+public class AgenciaImplementacaoRepositorio implements AgenciaPortaRepositorio {
 	
 	private Connection conn = null;
 	
 	@Override
-	public Cidade inserir(Cidade cidade) {
+	public Agencia inserir(Agencia agencia) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 			conn = JdbcConexao.getConexao();
 			conn.setAutoCommit(false);
 			st = conn.prepareStatement(
-					"INSERT INTO cidade (id, nome, ra, estado_id) " + 
-					"VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-			st.setLong(1, cidade.getId());
-			st.setString(2, cidade.getNome());
-			st.setString(3, cidade.getRegistroAluno());
-			st.setLong(4, cidade.getEstado().getId());
+					"INSERT INTO agencia (id, codigo, digito, razaosocial, cnpj, ra, banco_id) " + 
+					"VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+			st.setLong(1, agencia.getId());
+			st.setString(2, agencia.getCodigo());
+			st.setString(3, agencia.getDigito());
+			st.setString(4, agencia.getRazaoSocial());
+			st.setString(5, agencia.getCnpj());
+			st.setString(6, agencia.getRegistroAluno());
+			st.setLong(7, agencia.getBanco().getId());
 			int rowsAffected = st.executeUpdate();
 			conn.commit();
 			if (rowsAffected > 0) {
 				rs = st.getGeneratedKeys();
 				while (rs.next()) {
-					cidade = instanciaCidade(rs);
+					agencia = instanciaAgencia(rs);
 				}
 			}
 		} catch (SQLException e) {
@@ -59,12 +60,12 @@ public class CidadeImplementacaoRepositorio implements CidadePortaRepositorio {
 			JdbcConexao.fecharStatment(st);
 			JdbcConexao.fecharConexao();
 		}
-		return cidade;
+		return agencia;
 	}
 
 	@Override
-	public List<Cidade> acharTodos() {
-		List<Cidade> cidades = new ArrayList<>();
+	public List<Agencia> acharTodos() {
+		List<Agencia> agencias = new ArrayList<>();
 		Statement st = null;
 		ResultSet rs = null;
 		try {
@@ -72,9 +73,9 @@ public class CidadeImplementacaoRepositorio implements CidadePortaRepositorio {
 			st = conn.createStatement();
 			rs = st.executeQuery(
 					"SELECT * " + 
-					"FROM cidade");
+					"FROM agencia");
 			while (rs.next()) {
-				cidades.add(instanciaCidade(rs));
+				agencias.add(instanciaAgencia(rs));
 			}
 		} catch (SQLException e) {
 			throw new BancoDadosExcecao(e.getMessage());
@@ -83,26 +84,24 @@ public class CidadeImplementacaoRepositorio implements CidadePortaRepositorio {
 			JdbcConexao.fecharStatment(st);
 			JdbcConexao.fecharConexao();
 		}
-		return cidades;
+		return agencias;
 	}
 	
 	@Override
-	public Cidade acharPorId(Long id) {
-		Cidade cidade = null;
+	public Agencia acharPorId(Long id) {
+		Agencia agencia = null;
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 			conn = JdbcConexao.getConexao();
 			st = conn.prepareStatement(
 					"SELECT * " + 
-					"FROM cidade " + 
-					"WHERE cidade.id = ?");
+					"FROM agencia " + 
+					"WHERE agencia.id = ?");
 			st.setLong(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
-				cidade = instanciaCidade(rs);
-			} else {
-				throw new ObjetoNaoEncontradoExcecao("Object não encontrado. Id: " + id);
+				agencia = instanciaAgencia(rs);
 			}
 		} catch (SQLException e) {
 			throw new BancoDadosExcecao("Erro! Causado por: " + e.getMessage());
@@ -111,21 +110,21 @@ public class CidadeImplementacaoRepositorio implements CidadePortaRepositorio {
 			JdbcConexao.fecharStatment(st);
 			JdbcConexao.fecharConexao();
 		}
-		return cidade;
+		return agencia;
 	}
 
 	@Override
-	public void atualizar(Cidade cidade, Long id) {
+	public void atualizar(Agencia agencia, Long id) {
 		PreparedStatement st = null;
 		try {
 			conn = JdbcConexao.getConexao();
 			conn.setAutoCommit(false);
 			st = conn.prepareStatement(
-					"UPDATE cidade " + 
+					"UPDATE agencia " + 
 					"SET nome = ?, ra = ? " +
-					"WHERE cidade.id = ?");
-			st.setString(1, cidade.getNome());
-			st.setString(2, cidade.getRegistroAluno());
+					"WHERE agencia.id = ?");
+			st.setString(1, agencia.getRazaoSocial());
+			st.setString(2, agencia.getRegistroAluno());
 			st.setLong(3, id);
 			st.executeUpdate();
 			conn.commit();
@@ -147,10 +146,7 @@ public class CidadeImplementacaoRepositorio implements CidadePortaRepositorio {
 		PreparedStatement st = null;
 		try {
 			conn = JdbcConexao.getConexao();
-			st = conn.prepareStatement(
-					"DELETE " + 
-					"FROM cidade " + 
-					"WHERE cidade.id = ?");
+			st = conn.prepareStatement("DELETE FROM agencia WHERE agencia.id = ?");
 			st.setLong(1, id);
 			st.executeUpdate();
 		} catch (SQLException e) {
@@ -161,15 +157,16 @@ public class CidadeImplementacaoRepositorio implements CidadePortaRepositorio {
 		}
 	}
 	
-	private Cidade instanciaCidade(ResultSet rs) throws SQLException {
-		Estado estado = new Estado();
-		estado.setId(rs.getLong("estado_id"));
-		Cidade cidade = new Cidade(
-				rs.getLong("id"), 
-				rs.getString("ra"), 
+	private Agencia instanciaAgencia(ResultSet rs) throws SQLException {
+		Agencia agencia = new Agencia(
 				null, 
-				rs.getString("nome"), 
-				estado);
-		return cidade;
+				null, 
+				null, 
+				null, 
+				null, 
+				null, 
+				null, 
+				null);
+		return agencia;
 	}
 }

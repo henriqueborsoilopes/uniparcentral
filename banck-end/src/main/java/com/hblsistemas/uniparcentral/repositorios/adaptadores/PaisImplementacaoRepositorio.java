@@ -15,6 +15,7 @@ import com.hblsistemas.uniparcentral.entidades.Pais;
 import com.hblsistemas.uniparcentral.repositorios.portas.PaisPortaRepositorio;
 import com.hblsistemas.uniparcentral.servicos.JdbcConexao;
 import com.hblsistemas.uniparcentral.servicos.excecoes.BancoDadosExcecao;
+import com.hblsistemas.uniparcentral.servicos.excecoes.ObjetoNaoEncontradoExcecao;
 
 @Component
 @Primary
@@ -29,13 +30,15 @@ public class PaisImplementacaoRepositorio implements PaisPortaRepositorio {
 		try {
 			conn = JdbcConexao.getConexao();
 			conn.setAutoCommit(false);
-			st = conn.prepareStatement("INSERT INTO pais (id, nome, sigla, ra) VALUES (?, ?, ?, ?)");
+			st = conn.prepareStatement(
+					"INSERT INTO pais (id, nome, abreviacao, ra) " + 
+					"VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 			st.setLong(1, pais.getId());
 			st.setString(2, pais.getNome());
 			st.setString(3, pais.getSigla());
 			st.setString(4, pais.getRegistroAluno());
-			conn.commit();
 			int rowsAffected = st.executeUpdate();
+			conn.commit();
 			if (rowsAffected > 0) {
 				rs = st.getGeneratedKeys();
 				while (rs.next()) {
@@ -66,7 +69,9 @@ public class PaisImplementacaoRepositorio implements PaisPortaRepositorio {
 		try {
 			conn = JdbcConexao.getConexao();
 			st = conn.createStatement();
-			rs = st.executeQuery("SELECT * FROM pais");
+			rs = st.executeQuery(
+					"SELECT * " + 
+					"FROM pais");
 			while (rs.next()) {
 				paises.add(instanciaPais(rs));
 			}
@@ -87,11 +92,16 @@ public class PaisImplementacaoRepositorio implements PaisPortaRepositorio {
 		ResultSet rs = null;
 		try {
 			conn = JdbcConexao.getConexao();
-			st = conn.prepareStatement("SELECT * FROM pais WHERE pais.id = ?");
+			st = conn.prepareStatement(
+					"SELECT * " + 
+					"FROM pais " + 
+					"WHERE pais.id = ?");
 			st.setLong(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
 				pais = instanciaPais(rs);
+			} else {
+				throw new ObjetoNaoEncontradoExcecao("Object não encontrado. Id: " + id);
 			}
 		} catch (SQLException e) {
 			throw new BancoDadosExcecao("Erro! Causado por: " + e.getMessage());
@@ -111,13 +121,14 @@ public class PaisImplementacaoRepositorio implements PaisPortaRepositorio {
 			conn.setAutoCommit(false);
 			st = conn.prepareStatement(
 					"UPDATE pais " + 
-					"SET nome = ?, sigla = ? " +
-					"WHERE pais.id == ?");
+					"SET nome = ?, abreviacao = ?, ra = ? " +
+					"WHERE pais.id = ?");
 			st.setString(1, pais.getNome());
 			st.setString(2, pais.getSigla());
-			st.setLong(3, id);
-			conn.commit();
+			st.setString(3, pais.getRegistroAluno());
+			st.setLong(4, id);
 			st.executeUpdate();
+			conn.commit();
 		} catch (SQLException e) {
 			try {
 				conn.rollback();
@@ -135,7 +146,11 @@ public class PaisImplementacaoRepositorio implements PaisPortaRepositorio {
 	public void deletar(Long id) {
 		PreparedStatement st = null;
 		try {
-			st = conn.prepareStatement("DELETE FROM pais WHERE pais.id = ?");
+			conn = JdbcConexao.getConexao();
+			st = conn.prepareStatement(
+					"DELETE " + 
+					"FROM pais " + 
+					"WHERE pais.id = ?");
 			st.setLong(1, id);
 			st.executeUpdate();
 		} catch (SQLException e) {
@@ -150,7 +165,7 @@ public class PaisImplementacaoRepositorio implements PaisPortaRepositorio {
 		Pais pais = new Pais();
 		pais.setId(rs.getLong("id"));
 		pais.setNome(rs.getString("nome"));
-		pais.setSigla(rs.getString("sigla"));
+		pais.setSigla(rs.getString("abreviacao"));
 		pais.setRegistroAluno(rs.getString("ra"));
 		return pais;
 	}

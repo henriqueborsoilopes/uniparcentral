@@ -1,24 +1,19 @@
 package com.hblsistemas.uniparcentral.servicos.validacoes;
 
-import com.hblsistemas.uniparcentral.entidades.Cidade;
+import com.hblsistemas.uniparcentral.entidades.Agencia;
 import com.hblsistemas.uniparcentral.servicos.excecoes.ValidacaoExcecao;
 
-public class CidadeValidacao {
-		
-	public static void validarTodosCamposParaInserir(Cidade cidade) {
-		validarTodosCamposParaUpdate(cidade);
-		validarEstadoId(cidade.getEstado().getId());
+public class AgenciaValidacao {
+	
+	public static void validarTodosCampos(Agencia agencia) {
+		validarObjetoNulo(agencia);
+		validarRazaosocial(agencia.getRazaoSocial());
+		validarRegistroAluno(agencia.getRegistroAluno());
 	}
 	
-	public static void validarTodosCamposParaUpdate(Cidade cidade) {
-		validarObjetoNulo(cidade);
-		validarNome(cidade.getNome());
-		validarRegistroAluno(cidade.getRegistroAluno());
-	}
-	
-	private static void validarObjetoNulo(Cidade cidade) {
-		if (cidade == null) {
-			throw new ValidacaoExcecao("É obrigatório que um Cidade seja válido!");
+	private static void validarObjetoNulo(Agencia agencia) {
+		if (agencia == null) {
+			throw new ValidacaoExcecao("Os dados do Banco são obrigatório o preenchimento.");
 		}
 	}
 	
@@ -36,21 +31,15 @@ public class CidadeValidacao {
 		}
 	}
 	
-	private static void validarNome(String nome) {
-		if (nome == null) {
+	private static void validarRazaosocial(String razaosocial) {
+		if (razaosocial == null) {
 			throw new ValidacaoExcecao("O campo Nome é obrigatório o preenchimento.");
-		} else if (nome.isBlank()) {
+		} else if (razaosocial.isBlank()) {
 			throw new ValidacaoExcecao("O campo Nome é obrigatório o preenchimento.");
-		} else if (nome.isEmpty()) {
+		} else if (razaosocial.isEmpty()) {
 			throw new ValidacaoExcecao("O campo Nome é obrigatório o preenchimento.");
-		} else if (nome.length() > 120) {
-			throw new ValidacaoExcecao("O campo Nome deve conter no máximo 120 caracteres.");
-		}
-	}
-	
-	private static void validarEstadoId(Long estadoId) {
-		if (estadoId == null) {
-			throw new ValidacaoExcecao("É obrigatório que um Estado seja válido!");
-		}
+		} else if (razaosocial.length() > 120) {
+			throw new ValidacaoExcecao("O campo Nome deve conter 8 caracteres.");
+		}	
 	}
 }

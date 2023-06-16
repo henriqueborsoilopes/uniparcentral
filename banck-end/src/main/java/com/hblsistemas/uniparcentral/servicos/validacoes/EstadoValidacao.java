@@ -1,25 +1,30 @@
 package com.hblsistemas.uniparcentral.servicos.validacoes;
 
-import com.hblsistemas.uniparcentral.entidades.Pais;
+import com.hblsistemas.uniparcentral.entidades.Estado;
 import com.hblsistemas.uniparcentral.servicos.excecoes.ValidacaoExcecao;
 
-public class PaisValidacao {
+public class EstadoValidacao {
 	
-	public static void validarTodosCampos(Pais pais) {
-		validarObjetoNulo(pais);
-		validarNome(pais.getNome());
-		validarRegistroAluno(pais.getRegistroAluno());
-		validarSigla(pais.getSigla());
+	public static void validarTodosCamposParaInserir(Estado estado) {
+		validarTodosCamposParaUpdate(estado);
+		validarPaisId(estado.getPais() == null ? null : estado.getPais().getId());
 	}
 	
-	private static void validarObjetoNulo(Pais pais) {
-		if (pais == null) {
-			throw new ValidacaoExcecao("É obrigatório que um País seja válido!");
+	public static void validarTodosCamposParaUpdate(Estado estado) {
+		validarObjetoNulo(estado);
+		validarNome(estado.getNome());
+		validarRegistroAluno(estado.getRegistroAluno());
+		validarSigla(estado.getSigla());
+	}
+	
+	private static void validarObjetoNulo(Estado estado) {
+		if (estado == null) {
+			throw new ValidacaoExcecao("É obrigatório que um Estado seja válido!");
 		}
 	}
 	
 	private static void validarRegistroAluno(String ra) {
-		if (ra.isBlank() || ra.isEmpty() || ra == null) {
+		if (ra == null || ra.isBlank() || ra.isEmpty()) {
 			throw new ValidacaoExcecao("O campo Registro do Aluno é obrigatório o preenchimento.");
 		} else if (ra.length() < 8) {
 			throw new ValidacaoExcecao("O campo Registro do Aluno deve conter no mínimo 8 caracteres.");
@@ -29,7 +34,7 @@ public class PaisValidacao {
 	}
 	
 	private static void validarNome(String nome) {
-		if (nome.isBlank() || nome.isEmpty() || nome == null) {
+		if (nome == null || nome.isBlank() || nome.isEmpty()) {
 			throw new ValidacaoExcecao("O campo Nome é obrigatório o preenchimento.");
 		} else if (nome.length() > 120) {
 			throw new ValidacaoExcecao("O campo Nome deve conter no máximo 120 caracteres.");
@@ -41,6 +46,12 @@ public class PaisValidacao {
 			throw new ValidacaoExcecao("O campo Sigla é obrigatório o preenchimento.");
 		} else if (sigla.length() > 3) {
 			throw new ValidacaoExcecao("O campo Sigla deve conter no máximo 3 caracteres.");
+		}
+	}
+	
+	private static void validarPaisId(Long paisId) {
+		if (paisId == null) {
+			throw new ValidacaoExcecao("É obrigatório que um País seja válido!");
 		}
 	}
 }

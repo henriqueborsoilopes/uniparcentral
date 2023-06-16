@@ -20,20 +20,18 @@ public class Cidade implements Serializable {
 	private String registroAluno;
 	private Instant dataCadastro;
 	private String nome;
-	private String sigla;
 	
 	@ManyToOne
 	private Estado estado;
 	
 	public Cidade() { }
 	
-	public Cidade(Long id, String registroAluno, Instant dataCadastro, String nome, String sigla, Estado estado) {
+	public Cidade(Long id, String registroAluno, Instant dataCadastro, String nome, Estado estado) {
 		super();
 		this.id = id;
 		this.registroAluno = registroAluno;
 		this.dataCadastro = dataCadastro;
 		this.nome = nome;
-		this.sigla = sigla;
 		this.estado = estado;
 	}
 
@@ -69,13 +67,6 @@ public class Cidade implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getSigla() {
-		return sigla;
-	}
-
-	public void setSigla(String sigla) {
-		this.sigla = sigla;
-	}
 
 	public Estado getEstado() {
 		return estado;
