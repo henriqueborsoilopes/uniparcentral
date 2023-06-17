@@ -12,9 +12,11 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.hblsistemas.uniparcentral.entidades.Agencia;
+import com.hblsistemas.uniparcentral.entidades.Banco;
 import com.hblsistemas.uniparcentral.repositorios.portas.AgenciaPortaRepositorio;
 import com.hblsistemas.uniparcentral.servicos.JdbcConexao;
 import com.hblsistemas.uniparcentral.servicos.excecoes.BancoDadosExcecao;
+import com.hblsistemas.uniparcentral.servicos.excecoes.ObjetoNaoEncontradoExcecao;
 
 @Component
 @Primary
@@ -102,6 +104,8 @@ public class AgenciaImplementacaoRepositorio implements AgenciaPortaRepositorio 
 			rs = st.executeQuery();
 			if (rs.next()) {
 				agencia = instanciaAgencia(rs);
+			} else {
+				throw new ObjetoNaoEncontradoExcecao("Object não encontrado. Id: " + id);
 			}
 		} catch (SQLException e) {
 			throw new BancoDadosExcecao("Erro! Causado por: " + e.getMessage());
@@ -121,7 +125,7 @@ public class AgenciaImplementacaoRepositorio implements AgenciaPortaRepositorio 
 			conn.setAutoCommit(false);
 			st = conn.prepareStatement(
 					"UPDATE agencia " + 
-					"SET nome = ?, ra = ? " +
+					"SET razaosocial = ?, ra = ? " +
 					"WHERE agencia.id = ?");
 			st.setString(1, agencia.getRazaoSocial());
 			st.setString(2, agencia.getRegistroAluno());
@@ -146,7 +150,10 @@ public class AgenciaImplementacaoRepositorio implements AgenciaPortaRepositorio 
 		PreparedStatement st = null;
 		try {
 			conn = JdbcConexao.getConexao();
-			st = conn.prepareStatement("DELETE FROM agencia WHERE agencia.id = ?");
+			st = conn.prepareStatement(
+					"DELETE " + 
+					"FROM agencia " + 
+					"WHERE agencia.id = ?");
 			st.setLong(1, id);
 			st.executeUpdate();
 		} catch (SQLException e) {
@@ -158,15 +165,17 @@ public class AgenciaImplementacaoRepositorio implements AgenciaPortaRepositorio 
 	}
 	
 	private Agencia instanciaAgencia(ResultSet rs) throws SQLException {
+		Banco banco = new Banco();
+		banco.setId(rs.getLong("banco_id"));
 		Agencia agencia = new Agencia(
+				rs.getLong("id"),	 
+				rs.getString("ra"),
 				null, 
-				null, 
-				null, 
-				null, 
-				null, 
-				null, 
-				null, 
-				null);
+				rs.getString("codigo"), 
+				rs.getString("digito"), 
+				rs.getString("razaosocial"), 
+				rs.getString("cnpj"), 
+				banco);
 		return agencia;
 	}
 }

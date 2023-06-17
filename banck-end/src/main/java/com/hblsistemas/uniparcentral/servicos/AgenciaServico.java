@@ -12,13 +12,15 @@ import com.hblsistemas.uniparcentral.servicos.validacoes.AgenciaValidacao;
 public class AgenciaServico {
 	
 	private final AgenciaPortaRepositorio agenciaRepositorioPorta;
+	private final BancoServico bancoServico;
 	
-	public AgenciaServico(AgenciaPortaRepositorio agenciaRepositorioPorta) {
+	public AgenciaServico(AgenciaPortaRepositorio agenciaRepositorioPorta, BancoServico bancoServico) {
 		this.agenciaRepositorioPorta = agenciaRepositorioPorta;
+		this.bancoServico = bancoServico;
 	}
 	
 	public void inserir(Agencia agencia) {
-		AgenciaValidacao.validarTodosCampos(agencia);
+		AgenciaValidacao.validarTodosCamposParaInserir(agencia);
 		agenciaRepositorioPorta.inserir(agencia);
 	}
 	
@@ -27,15 +29,18 @@ public class AgenciaServico {
 	}
 	
 	public Agencia acharPorId(Long id) {
-		return agenciaRepositorioPorta.acharPorId(id);
+		Agencia agencia = agenciaRepositorioPorta.acharPorId(id);
+		agencia.setBanco(bancoServico.acharPorId(agencia.getBanco().getId()));
+		return agencia;
 	}
 	
 	public void atualizar(Long id, Agencia agencia) {
-		AgenciaValidacao.validarTodosCampos(agencia);
+		AgenciaValidacao.validarTodosCamposParaUpdate(agencia);
 		agenciaRepositorioPorta.atualizar(agencia, id);
 	}
 	
 	public void deletar(Long id) {
+		agenciaRepositorioPorta.acharPorId(id);
 		agenciaRepositorioPorta.deletar(id);
 	}
 }

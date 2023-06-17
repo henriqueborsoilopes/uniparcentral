@@ -15,6 +15,7 @@ import com.hblsistemas.uniparcentral.entidades.Banco;
 import com.hblsistemas.uniparcentral.repositorios.portas.BancoPortaRepositorio;
 import com.hblsistemas.uniparcentral.servicos.JdbcConexao;
 import com.hblsistemas.uniparcentral.servicos.excecoes.BancoDadosExcecao;
+import com.hblsistemas.uniparcentral.servicos.excecoes.ObjetoNaoEncontradoExcecao;
 
 @Component
 @Primary
@@ -29,7 +30,9 @@ public class BancoImplementacaoRepositorio implements BancoPortaRepositorio {
 		try {
 			conn = JdbcConexao.getConexao();
 			conn.setAutoCommit(false);
-			st = conn.prepareStatement("INSERT INTO banco (id, nome, ra) VALUES (?, ?, ?)");
+			st = conn.prepareStatement(
+					"INSERT INTO banco (id, nome, ra) " + 
+					"VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 			st.setLong(1, banco.getId());
 			st.setString(2, banco.getNome());
 			st.setString(3, banco.getRegistroAluno());
@@ -65,7 +68,9 @@ public class BancoImplementacaoRepositorio implements BancoPortaRepositorio {
 		try {
 			conn = JdbcConexao.getConexao();
 			st = conn.createStatement();
-			rs = st.executeQuery("SELECT * FROM banco");
+			rs = st.executeQuery(
+					"SELECT * " + 
+					"FROM banco");
 			while (rs.next()) {
 				bancos.add(instanciaBanco(rs));
 			}
@@ -86,11 +91,16 @@ public class BancoImplementacaoRepositorio implements BancoPortaRepositorio {
 		ResultSet rs = null;
 		try {
 			conn = JdbcConexao.getConexao();
-			st = conn.prepareStatement("SELECT * FROM banco WHERE banco.id = ?");
+			st = conn.prepareStatement(
+					"SELECT * " + 
+					"FROM banco " + 
+					"WHERE banco.id = ?");
 			st.setLong(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
 				banco = instanciaBanco(rs);
+			} else {
+				throw new ObjetoNaoEncontradoExcecao("Object não encontrado. Id: " + id);
 			}
 		} catch (SQLException e) {
 			throw new BancoDadosExcecao("Erro! Causado por: " + e.getMessage());
@@ -135,7 +145,10 @@ public class BancoImplementacaoRepositorio implements BancoPortaRepositorio {
 		PreparedStatement st = null;
 		try {
 			conn = JdbcConexao.getConexao();
-			st = conn.prepareStatement("DELETE FROM banco WHERE banco.id = ?");
+			st = conn.prepareStatement(
+					"DELETE " + 
+					"FROM banco " + 
+					"WHERE banco.id = ?");
 			st.setLong(1, id);
 			st.executeUpdate();
 		} catch (SQLException e) {
