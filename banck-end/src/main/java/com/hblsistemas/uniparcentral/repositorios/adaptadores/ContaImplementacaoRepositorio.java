@@ -16,6 +16,7 @@ import com.hblsistemas.uniparcentral.entidades.enums.TipoConta;
 import com.hblsistemas.uniparcentral.repositorios.portas.ContaPortaRepositorio;
 import com.hblsistemas.uniparcentral.servicos.JdbcConexao;
 import com.hblsistemas.uniparcentral.servicos.excecoes.BancoDadosExcecao;
+import com.hblsistemas.uniparcentral.servicos.excecoes.ObjetoNaoEncontradoExcecao;
 
 @Component
 @Primary
@@ -103,6 +104,8 @@ public class ContaImplementacaoRepositorio implements ContaPortaRepositorio {
 			rs = st.executeQuery();
 			if (rs.next()) {
 				conta = instanciaConta(rs);
+			} else {
+				throw new ObjetoNaoEncontradoExcecao("Object não encontrado. Id: " + id);
 			}
 		} catch (SQLException e) {
 			throw new BancoDadosExcecao("Erro! Causado por: " + e.getMessage());

@@ -21,7 +21,7 @@ public class AgenciaValidacao {
 	
 	private static void validarObjetoNulo(Agencia agencia) {
 		if (agencia == null) {
-			throw new ValidacaoExcecao("Os dados do Banco são obrigatório o preenchimento.");
+			throw new ValidacaoExcecao("É obrigatório que um Agencia seja válido!");
 		}
 	}
 	

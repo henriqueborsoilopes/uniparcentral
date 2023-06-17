@@ -19,6 +19,7 @@ import com.hblsistemas.uniparcentral.entidades.abstratas.Pessoa;
 import com.hblsistemas.uniparcentral.repositorios.portas.PessoaPortaRepositorio;
 import com.hblsistemas.uniparcentral.servicos.JdbcConexao;
 import com.hblsistemas.uniparcentral.servicos.excecoes.BancoDadosExcecao;
+import com.hblsistemas.uniparcentral.servicos.excecoes.ObjetoNaoEncontradoExcecao;
 
 @Component
 @Primary
@@ -104,6 +105,8 @@ public class PessoaImplementacaoRepositorio implements PessoaPortaRepositorio {
 				rs = st.executeQuery();
 				if (rs.next()) {
 					pessoa = instanciaPessoaJuridica(rs);
+				} else {
+					throw new ObjetoNaoEncontradoExcecao("Object não encontrado. Id: " + id);
 				}
 			}
 		} catch (SQLException e) {

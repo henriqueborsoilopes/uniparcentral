@@ -15,6 +15,7 @@ import com.hblsistemas.uniparcentral.entidades.Transacao;
 import com.hblsistemas.uniparcentral.repositorios.portas.TransacaoPortaRepositorio;
 import com.hblsistemas.uniparcentral.servicos.JdbcConexao;
 import com.hblsistemas.uniparcentral.servicos.excecoes.BancoDadosExcecao;
+import com.hblsistemas.uniparcentral.servicos.excecoes.ObjetoNaoEncontradoExcecao;
 
 @Component
 @Primary
@@ -95,6 +96,8 @@ public class TransacaoImplementacaoRepositorio implements TransacaoPortaReposito
 			rs = st.executeQuery();
 			if (rs.next()) {
 				transacao = instanciaTransacao(rs);
+			} else {
+				throw new ObjetoNaoEncontradoExcecao("Object não encontrado. Id: " + id);
 			}
 		} catch (SQLException e) {
 			throw new BancoDadosExcecao("Erro! Causado por: " + e.getMessage());

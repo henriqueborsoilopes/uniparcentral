@@ -11,10 +11,14 @@ import java.util.List;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import com.hblsistemas.uniparcentral.entidades.Cidade;
 import com.hblsistemas.uniparcentral.entidades.Endereco;
+import com.hblsistemas.uniparcentral.entidades.PessoaFisica;
+import com.hblsistemas.uniparcentral.entidades.abstratas.Pessoa;
 import com.hblsistemas.uniparcentral.repositorios.portas.EnderecoPortaRepositorio;
 import com.hblsistemas.uniparcentral.servicos.JdbcConexao;
 import com.hblsistemas.uniparcentral.servicos.excecoes.BancoDadosExcecao;
+import com.hblsistemas.uniparcentral.servicos.excecoes.ObjetoNaoEncontradoExcecao;
 
 @Component
 @Primary
@@ -23,15 +27,24 @@ public class EnderecoImplementacaoRepositorio implements EnderecoPortaRepositori
 	private Connection conn = null;
 	
 	@Override
-	public Endereco inserir(Endereco endereco) {
+	public Endereco inserir(Endereco endereco) {	
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 			conn = JdbcConexao.getConexao();
 			conn.setAutoCommit(false);
 			st = conn.prepareStatement(
-					"INSERT INTO endereco () " + 
-					"VALUES ()");
+					"INSERT INTO endereco (id, logradouro, numero, bairro, cep, complemento, ra, pessoa_id, cidade_id) " + 
+					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+			st.setLong(1, endereco.getId());
+			st.setString(2, endereco.getLogradouro());
+			st.setString(2, endereco.getNumero());
+			st.setString(2, endereco.getBairro());
+			st.setString(2, endereco.getCep());
+			st.setString(2, endereco.getComplemento());
+			st.setString(2, endereco.getRegistroAluno());
+			st.setLong(8, endereco.getMorador().getId());
+			st.setLong(9, endereco.getCidade().getId());
 			int rowsAffected = st.executeUpdate();
 			conn.commit();
 			if (rowsAffected > 0) {
@@ -96,6 +109,8 @@ public class EnderecoImplementacaoRepositorio implements EnderecoPortaRepositori
 			rs = st.executeQuery();
 			if (rs.next()) {
 				endereco = instanciaEndereco(rs);
+			} else {
+				throw new ObjetoNaoEncontradoExcecao("Object não encontrado. Id: " + id);
 			}
 		} catch (SQLException e) {
 			throw new BancoDadosExcecao("Erro! Causado por: " + e.getMessage());
@@ -115,8 +130,15 @@ public class EnderecoImplementacaoRepositorio implements EnderecoPortaRepositori
 			conn.setAutoCommit(false);
 			st = conn.prepareStatement(
 					"UPDATE endereco " + 
-					"SET " +
+					"SET logradouro = ?, numero = ?, bairro = ?, cep = ?, complemento = ?, ra = ? " +
 					"WHERE endereco.id = ?");
+			st.setString(1, endereco.getLogradouro());
+			st.setString(2, endereco.getNumero());
+			st.setString(3, endereco.getBairro());
+			st.setString(4, endereco.getCep());
+			st.setString(5, endereco.getComplemento());
+			st.setString(6, endereco.getRegistroAluno());
+			st.setLong(7, id);
 			st.executeUpdate();
 			conn.commit();
 		} catch (SQLException e) {
@@ -151,8 +173,22 @@ public class EnderecoImplementacaoRepositorio implements EnderecoPortaRepositori
 		}
 	}
 	
-	private Endereco instanciaEndereco(ResultSet rs) {
-		// TODO Auto-generated method stub
-		return null;
+	private Endereco instanciaEndereco(ResultSet rs) throws SQLException {
+		Pessoa morador = new PessoaFisica();
+		Cidade cidade = new Cidade();
+		morador.setId(rs.getLong("pessoa_id"));
+		cidade.setId(rs.getLong("cidade_id"));
+		Endereco endereco = new Endereco( 
+				rs.getLong("id"),	
+				rs.getString("ra"), 
+				null, 
+				rs.getString("logradouro"), 
+				rs.getString("numero"), 
+				rs.getString("bairro"), 
+				rs.getString("cep"), 
+				rs.getString("complemento"), 
+				cidade, 
+				morador);
+		return endereco;
 	}
 }
