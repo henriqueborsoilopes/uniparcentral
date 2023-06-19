@@ -11,7 +11,10 @@ import java.util.List;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import com.hblsistemas.uniparcentral.entidades.Agencia;
 import com.hblsistemas.uniparcentral.entidades.Conta;
+import com.hblsistemas.uniparcentral.entidades.PessoaFisica;
+import com.hblsistemas.uniparcentral.entidades.abstratas.Pessoa;
 import com.hblsistemas.uniparcentral.entidades.enums.TipoConta;
 import com.hblsistemas.uniparcentral.repositorios.portas.ContaPortaRepositorio;
 import com.hblsistemas.uniparcentral.servicos.adaptadores.JdbcConexao;
@@ -164,15 +167,20 @@ public class ContaImplRepositorio implements ContaPortaRepositorio {
 	}
 	
 	private Conta instanciaConta(ResultSet rs) throws SQLException {
-		Conta conta = new Conta();
-		conta.setId(rs.getLong("id"));
-		conta.setNumero(rs.getString("numero"));
-		conta.setAgencia(null);
-		conta.setDigito(rs.getString("digito"));
-		conta.setTipoConta(TipoConta.paraEnum(rs.getInt("tipo")));
-		conta.setSaldo(rs.getDouble("saldo"));
-		conta.setTitular(null);
-		conta.setRegistroAluno(rs.getString("ra"));
+		Pessoa pessoa = new PessoaFisica();
+		pessoa.setId(rs.getLong("pessoa_id"));
+		Agencia agencia = new Agencia();
+		agencia.setId(rs.getLong("agencia_id"));
+		Conta conta = new Conta(
+				rs.getLong("id"), 
+				rs.getString("ra"), 
+				null, 
+				rs.getString("numero"), 
+				rs.getString("digito"), 
+				rs.getDouble("saldo"), 
+				TipoConta.paraEnum(rs.getInt("tipo")), 
+				agencia, 
+				pessoa);
 		return conta;
 	}
 }

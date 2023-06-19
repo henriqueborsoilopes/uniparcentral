@@ -38,11 +38,11 @@ public class EnderecoImplRepositorio implements EnderecoPortaRepositorio {
 					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 			st.setLong(1, endereco.getId());
 			st.setString(2, endereco.getLogradouro());
-			st.setString(2, endereco.getNumero());
-			st.setString(2, endereco.getBairro());
-			st.setString(2, endereco.getCep());
-			st.setString(2, endereco.getComplemento());
-			st.setString(2, endereco.getRegistroAluno());
+			st.setString(3, endereco.getNumero());
+			st.setString(4, endereco.getBairro());
+			st.setString(5, endereco.getCep());
+			st.setString(6, endereco.getComplemento());
+			st.setString(7, endereco.getRegistroAluno());
 			st.setLong(8, endereco.getMorador().getId());
 			st.setLong(9, endereco.getCidade().getId());
 			int rowsAffected = st.executeUpdate();

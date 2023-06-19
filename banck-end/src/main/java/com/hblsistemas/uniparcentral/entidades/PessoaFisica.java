@@ -3,13 +3,12 @@ package com.hblsistemas.uniparcentral.entidades;
 import java.time.Instant;
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.hblsistemas.uniparcentral.entidades.abstratas.Pessoa;
 
 import jakarta.persistence.Entity;
 
 @Entity
-@JsonTypeName("pessoaFisica")
+//@JsonTypeName("pessoaFisica")
 public class PessoaFisica extends Pessoa {
 	private static final long serialVersionUID = 1L;
 	

@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class PessoaImplRepositorio implements PessoaPortaRepositorio {
 			conn.setAutoCommit(false);
 			st = conn.prepareStatement(
 					"INSERT INTO pessoa (email, ra) " + 
-					"VALUES (?, ?)");
+					"VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
 			st.setString(1, pessoa.getEmail());
 			st.setString(2, pessoa.getRegistroAluno());
 			int rowsAffected = st.executeUpdate();
@@ -128,15 +127,36 @@ public class PessoaImplRepositorio implements PessoaPortaRepositorio {
 			if (pessoa instanceof PessoaFisica pf) {
 				st = conn.prepareStatement(
 						"UPDATE pessoa " + 
-						"SET " +
-						"WHERE pessoa.id = ?");
-			} else if (pessoa instanceof PessoaFisica pf) {
+						"SET email = ?, registroaluno = ? " +
+						"WHERE pessoa.id = ?; " +
+						"UPDATE pessoafisica " + 
+						"SET nome = ?, cpf = ?, rg = ?, datanascimento = ? " +
+						"WHERE pessoa_id = ?; ");
+				st.setString(1, pf.getEmail());
+				st.setString(2, pf.getRegistroAluno());
+				st.setLong(3, pf.getId());
+				st.setString(4, pf.getNome());
+				st.setString(5, pf.getCpf());
+				st.setString(6, pf.getRg());
+				st.setTimestamp(7, Timestamp.valueOf(pf.getDataNascimento()));
+				st.setLong(8, pf.getId());
+			} else if (pessoa instanceof PessoaJuridica pj) {
 				st = conn.prepareStatement(
 						"UPDATE pessoa " + 
-						"SET " +
-						"WHERE pessoa.id = ?");
+						"SET email = ?, registroaluno = ? " +
+						"WHERE pessoa.id = ?; " +
+						"UPDATE pessoajuridica " + 
+						"SET razaosocial = ?, cnpj = ?, cnaeprinciapal = ?, fantasia = ? " +
+						"WHERE pessoa_id = ?; ");
+				st.setString(1, pj.getEmail());
+				st.setString(2, pj.getRegistroAluno());
+				st.setLong(3, pj.getId());
+				st.setString(4, pj.getRazaoSocial());
+				st.setString(5, pj.getCnpj());
+				st.setString(6, pj.getCnaePrincipal());
+				st.setString(7, pj.getNomeFantasia());
+				st.setLong(8, pj.getId());
 			}
-			st.setLong(3, id);
 			st.executeUpdate();
 			conn.commit();
 		} catch (SQLException e) {
@@ -211,7 +231,7 @@ public class PessoaImplRepositorio implements PessoaPortaRepositorio {
 			conn = JdbcConexao.getConexao();
 			conn.setAutoCommit(false);
 			st = conn.prepareStatement(
-					"INSERT INTO pessoajuridica (razaosocial, cnpj, cnaeprincipal, nomefantasia, pessoa_id) " + 
+					"INSERT INTO pessoajuridica (razaosocial, cnpj, cnaeprinciapal, fantasia, pessoa_id) " + 
 					"VALUES (?, ?, ?, ?, ?)");
 			st.setString(1, pj.getRazaoSocial());
 			st.setString(2, pj.getCnpj());
@@ -290,11 +310,11 @@ public class PessoaImplRepositorio implements PessoaPortaRepositorio {
 				rs.getLong("id"),
 				rs.getString("email"), 
 				rs.getString("ra"), 
-				rs.getTimestamp("datacadastro").toInstant(), 
+				null, 
 				rs.getString("nome"), 
 				rs.getString("cpf"), 
 				rs.getString("rg"), 
-				LocalDateTime.now());
+				rs.getTimestamp("datanascimento").toLocalDateTime());
 		return pessoa;
 	}
 	
@@ -303,10 +323,10 @@ public class PessoaImplRepositorio implements PessoaPortaRepositorio {
 				rs.getLong("id"),
 				rs.getString("email"), 
 				rs.getString("ra"), 
-				rs.getTimestamp("datacadastro").toInstant(), 
+				null,
 				rs.getString("razaosocial"), 
 				rs.getString("cnpj"), 
-				rs.getString("cnaeprincipal"), 
+				rs.getString("cnaeprinciapal"), 
 				rs.getString("fantasia"));
 		return pessoa;
 	}
