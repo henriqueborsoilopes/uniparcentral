@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hblsistemas.uniparcentral.entidades.Banco;
-import com.hblsistemas.uniparcentral.servicos.BancoServico;
+import com.hblsistemas.uniparcentral.servicos.adaptadores.BancoImpServico;
 
 @RestController
 @RequestMapping("/bancos")
 public class BancoControlador {
 	
-	private BancoServico bancoServico;
+	private BancoImpServico bancoServico;
 	
-	public BancoControlador(BancoServico bancoServico) {
+	public BancoControlador(BancoImpServico bancoServico) {
 		this.bancoServico = bancoServico;
 	}
 	

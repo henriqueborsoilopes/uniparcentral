@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hblsistemas.uniparcentral.entidades.Pais;
-import com.hblsistemas.uniparcentral.servicos.PaisServico;
+import com.hblsistemas.uniparcentral.servicos.adaptadores.PaisImpServico;
 
 @RestController
 @RequestMapping("/paises")
 public class PaisControlador {
 	
-	private PaisServico paisServico;
+	private PaisImpServico paisServico;
 	
-	public PaisControlador(PaisServico paisServico) {
+	public PaisControlador(PaisImpServico paisServico) {
 		this.paisServico = paisServico;
 	}
 	

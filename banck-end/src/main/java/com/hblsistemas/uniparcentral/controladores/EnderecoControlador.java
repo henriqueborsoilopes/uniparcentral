@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hblsistemas.uniparcentral.entidades.Endereco;
-import com.hblsistemas.uniparcentral.servicos.EnderecoServico;
+import com.hblsistemas.uniparcentral.servicos.adaptadores.EnderecoImpServico;
 
 @RestController
 @RequestMapping("/enderecos")
 public class EnderecoControlador {
 	
-	private EnderecoServico enderecoServico;
+	private EnderecoImpServico enderecoServico;
 	
-	public EnderecoControlador(EnderecoServico enderecoServico) {
+	public EnderecoControlador(EnderecoImpServico enderecoServico) {
 		this.enderecoServico = enderecoServico;
 	}
 	

@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hblsistemas.uniparcentral.entidades.Estado;
-import com.hblsistemas.uniparcentral.servicos.EstadoServico;
+import com.hblsistemas.uniparcentral.servicos.adaptadores.EstadoImpServico;
 
 @RestController
 @RequestMapping("/estados")
 public class EstadoControlador {
 	
-	private EstadoServico estadoServico;
+	private EstadoImpServico estadoServico;
 	
-	public EstadoControlador(EstadoServico estadoServico) {
+	public EstadoControlador(EstadoImpServico estadoServico) {
 		this.estadoServico = estadoServico;
 	}
 	

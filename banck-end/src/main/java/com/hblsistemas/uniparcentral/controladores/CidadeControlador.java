@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hblsistemas.uniparcentral.entidades.Cidade;
-import com.hblsistemas.uniparcentral.servicos.CidadeServico;
+import com.hblsistemas.uniparcentral.servicos.adaptadores.CidadeImpServico;
 
 @RestController
 @RequestMapping("/cidades")
 public class CidadeControlador {
 	
-	private CidadeServico cidadeServico;
+	private CidadeImpServico cidadeServico;
 	
-	public CidadeControlador(CidadeServico cidadeServico) {
+	public CidadeControlador(CidadeImpServico cidadeServico) {
 		this.cidadeServico = cidadeServico;
 	}
 	

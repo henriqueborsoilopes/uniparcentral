@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hblsistemas.uniparcentral.entidades.Telefone;
-import com.hblsistemas.uniparcentral.servicos.TelefoneServico;
+import com.hblsistemas.uniparcentral.servicos.adaptadores.TelefoneImpServico;
 
 @RestController
 @RequestMapping("/telefones")
 public class TelefoneControlador {
 	
-	private TelefoneServico telefoneServico;
+	private TelefoneImpServico telefoneServico;
 	
-	public TelefoneControlador(TelefoneServico telefoneServico) {
+	public TelefoneControlador(TelefoneImpServico telefoneServico) {
 		this.telefoneServico = telefoneServico;
 	}
 	

@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hblsistemas.uniparcentral.entidades.Conta;
-import com.hblsistemas.uniparcentral.servicos.ContaServico;
+import com.hblsistemas.uniparcentral.servicos.adaptadores.ContaImpServico;
 
 @RestController
 @RequestMapping("/contas")
 public class ContaControlador {
 	
-	private ContaServico contaServico;
+	private ContaImpServico contaServico;
 	
-	public ContaControlador(ContaServico contaServico) {
+	public ContaControlador(ContaImpServico contaServico) {
 		this.contaServico = contaServico;
 	}
 	

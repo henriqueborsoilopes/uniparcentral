@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hblsistemas.uniparcentral.entidades.abstratas.Pessoa;
-import com.hblsistemas.uniparcentral.servicos.PessoaServico;
+import com.hblsistemas.uniparcentral.servicos.adaptadores.PessoaImpServico;
 
 @RestController
 @RequestMapping("/pessoas")
 public class PessoaControlador {
 	
-	private PessoaServico pessoaServico;
+	private PessoaImpServico pessoaServico;
 	
-	public PessoaControlador(PessoaServico pessoaServico) {
+	public PessoaControlador(PessoaImpServico pessoaServico) {
 		this.pessoaServico = pessoaServico;
 	}
 	
