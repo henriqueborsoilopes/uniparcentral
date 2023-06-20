@@ -6,10 +6,11 @@ import org.springframework.stereotype.Service;
 
 import com.hblsistemas.uniparcentral.entidades.Telefone;
 import com.hblsistemas.uniparcentral.repositorios.portas.TelefonePortaRepositorio;
+import com.hblsistemas.uniparcentral.servicos.portas.TelefonePortaServico;
 import com.hblsistemas.uniparcentral.servicos.validacoes.TelefoneValidacao;
 
 @Service
-public class TelefoneImpServico {
+public class TelefoneImpServico implements TelefonePortaServico {
 	
 	private final TelefonePortaRepositorio telefoneRepositorioPorta;
 	
@@ -17,24 +18,29 @@ public class TelefoneImpServico {
 		this.telefoneRepositorioPorta = telefoneRepositorioPorta;
 	}
 	
-	public void inserir(Telefone telefone) {
+	@Override
+	public Telefone inserir(Telefone telefone) {
 		TelefoneValidacao.validarTodosCampos(telefone);
-		telefoneRepositorioPorta.inserir(telefone);
+		return telefoneRepositorioPorta.inserir(telefone);
 	}
 	
+	@Override
 	public List<Telefone> acharTodos() {
 		return telefoneRepositorioPorta.acharTodos();
 	}
 	
+	@Override
 	public Telefone acharPorId(Long id) {
 		return telefoneRepositorioPorta.acharPorId(id);
 	}
 	
-	public void atualizar(Long id, Telefone telefone) {
+	@Override
+	public void atualizar(Telefone telefone, Long id) {
 		TelefoneValidacao.validarTodosCampos(telefone);
 		telefoneRepositorioPorta.atualizar(telefone, id);
 	}
 	
+	@Override
 	public void deletar(Long id) {
 		telefoneRepositorioPorta.deletar(id);
 	}

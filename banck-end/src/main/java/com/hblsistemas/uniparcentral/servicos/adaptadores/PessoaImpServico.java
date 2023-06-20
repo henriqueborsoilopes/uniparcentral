@@ -6,10 +6,11 @@ import org.springframework.stereotype.Service;
 
 import com.hblsistemas.uniparcentral.entidades.abstratas.Pessoa;
 import com.hblsistemas.uniparcentral.repositorios.portas.PessoaPortaRepositorio;
+import com.hblsistemas.uniparcentral.servicos.portas.PessoaPortaServico;
 import com.hblsistemas.uniparcentral.servicos.validacoes.PessoaValidacao;
 
 @Service
-public class PessoaImpServico {
+public class PessoaImpServico implements PessoaPortaServico {
 	
 	private final PessoaPortaRepositorio pessoaRepositorioPorta;
 	
@@ -17,24 +18,29 @@ public class PessoaImpServico {
 		this.pessoaRepositorioPorta = pessoaRepositorioPorta;
 	}
 	
-	public void inserir(Pessoa pessoa) {
+	@Override
+	public Pessoa inserir(Pessoa pessoa) {
 		PessoaValidacao.validarTodosCampos(pessoa);
-		pessoaRepositorioPorta.inserir(pessoa);
+		return pessoaRepositorioPorta.inserir(pessoa);
 	}
 	
+	@Override
 	public List<Pessoa> acharTodos() {
 		return pessoaRepositorioPorta.acharTodos();
 	}
 	
+	@Override
 	public Pessoa acharPorId(Long id) {
 		return pessoaRepositorioPorta.acharPorId(id);
 	}
 	
-	public void atualizar(Long id, Pessoa pessoa) {
+	@Override
+	public void atualizar(Pessoa pessoa, Long id) {
 		PessoaValidacao.validarTodosCampos(pessoa);
 		pessoaRepositorioPorta.atualizar(pessoa, id);
 	}
 	
+	@Override
 	public void deletar(Long id) {
 		pessoaRepositorioPorta.deletar(id);
 	}

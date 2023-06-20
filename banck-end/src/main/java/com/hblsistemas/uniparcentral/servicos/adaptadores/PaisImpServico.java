@@ -6,10 +6,11 @@ import org.springframework.stereotype.Service;
 
 import com.hblsistemas.uniparcentral.entidades.Pais;
 import com.hblsistemas.uniparcentral.repositorios.portas.PaisPortaRepositorio;
+import com.hblsistemas.uniparcentral.servicos.portas.PaisPortaServico;
 import com.hblsistemas.uniparcentral.servicos.validacoes.PaisValidacao;
 
 @Service
-public class PaisImpServico {
+public class PaisImpServico implements PaisPortaServico {
 	
 	private final PaisPortaRepositorio paisRepositorioPorta;
 	
@@ -17,24 +18,29 @@ public class PaisImpServico {
 		this.paisRepositorioPorta = paisRepositorioPorta;
 	}
 	
-	public void inserir(Pais pais) {
+	@Override
+	public Pais inserir(Pais pais) {
 		PaisValidacao.validarTodosCampos(pais);
-		paisRepositorioPorta.inserir(pais);
+		return paisRepositorioPorta.inserir(pais);
 	}
 	
+	@Override
 	public List<Pais> acharTodos() {
 		return paisRepositorioPorta.acharTodos();
 	}
 	
+	@Override
 	public Pais acharPorId(Long id) {
 		return paisRepositorioPorta.acharPorId(id);
 	}
 	
-	public void atualizar(Long id, Pais pais) {
+	@Override
+	public void atualizar(Pais pais, Long id) {
 		PaisValidacao.validarTodosCampos(pais);
 		paisRepositorioPorta.atualizar(pais, id);
 	}
 	
+	@Override
 	public void deletar(Long id) {
 		paisRepositorioPorta.acharPorId(id);
 		paisRepositorioPorta.deletar(id);

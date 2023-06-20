@@ -6,10 +6,11 @@ import org.springframework.stereotype.Service;
 
 import com.hblsistemas.uniparcentral.entidades.Cidade;
 import com.hblsistemas.uniparcentral.repositorios.portas.CidadePortaRepositorio;
+import com.hblsistemas.uniparcentral.servicos.portas.CidadePortaServico;
 import com.hblsistemas.uniparcentral.servicos.validacoes.CidadeValidacao;
 
 @Service
-public class CidadeImpServico {
+public class CidadeImpServico implements CidadePortaServico {
 	
 	private final CidadePortaRepositorio cidadePortaRepositorio;
 	private final EstadoImpServico estadoServico;
@@ -19,26 +20,31 @@ public class CidadeImpServico {
 		this.estadoServico = estadoServico;
 	}
 	
-	public void inserir(Cidade cidade) {
+	@Override
+	public Cidade inserir(Cidade cidade) {
 		CidadeValidacao.validarTodosCamposParaInserir(cidade);
-		cidadePortaRepositorio.inserir(cidade);
+		return cidadePortaRepositorio.inserir(cidade);
 	}
 	
+	@Override
 	public List<Cidade> acharTodos() {
 		return cidadePortaRepositorio.acharTodos();
 	}
 	
+	@Override
 	public Cidade acharPorId(Long id) {
 		Cidade cidade = cidadePortaRepositorio.acharPorId(id);
 		cidade.setEstado(estadoServico.acharPorId(cidade.getEstado().getId()));
 		return cidade;
 	}
 	
-	public void atualizar(Long id, Cidade cidade) {
+	@Override
+	public void atualizar(Cidade cidade, Long id) {
 		CidadeValidacao.validarTodosCamposParaUpdate(cidade);
 		cidadePortaRepositorio.atualizar(cidade, id);
 	}
 	
+	@Override
 	public void deletar(Long id) {
 		cidadePortaRepositorio.acharPorId(id);
 		cidadePortaRepositorio.deletar(id);
