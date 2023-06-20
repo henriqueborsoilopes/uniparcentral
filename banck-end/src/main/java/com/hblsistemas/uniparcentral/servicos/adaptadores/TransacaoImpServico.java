@@ -27,11 +27,7 @@ public class TransacaoImpServico {
 		transacaoRepositorioPorta.inserir(transacao);
 	}
 	
-	public List<Transacao> acharTodos() {
-		return transacaoRepositorioPorta.acharTodos();
-	}
-	
-	public Transacao acharPorId(Long id) {
-		return transacaoRepositorioPorta.acharPorId(id);
+	public List<Transacao> acharTodos(Long conta_id) {
+		return transacaoRepositorioPorta.acharTodos(conta_id);
 	}
 }

@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.hblsistemas.uniparcentral.entidades.Telefone;
@@ -18,7 +17,6 @@ import com.hblsistemas.uniparcentral.servicos.excecoes.BancoDadosExcecao;
 import com.hblsistemas.uniparcentral.servicos.excecoes.ObjetoNaoEncontradoExcecao;
 
 @Component
-@Primary
 public class TelefoneImplRepositorio implements TelefonePortaRepositorio {
 	
 	private Connection conn = null;
@@ -31,8 +29,14 @@ public class TelefoneImplRepositorio implements TelefonePortaRepositorio {
 			conn = JdbcConexao.getConexao();
 			conn.setAutoCommit(false);
 			st = conn.prepareStatement(
-					"INSERT INTO telefone () " + 
-					"VALUES ()");
+					"INSERT INTO telefone (id, ra, numero, tipo, pessoa_id, agencia_id) " + 
+					"VALUES (?, ?, ?, ?, ?, ?)");
+			st.setLong(1, telefone.getId());
+			st.setString(2, telefone.getRegistroAluno());
+			st.setString(3, telefone.getNumero());
+			st.setInt(4, telefone.getTipoOperadora().getCodigo());
+			st.setLong(5, telefone.getTitularPessoa().getId());
+			st.setLong(6, telefone.getTitularAgencia().getId());
 			int rowsAffected = st.executeUpdate();
 			conn.commit();
 			if (rowsAffected > 0) {
@@ -154,8 +158,15 @@ public class TelefoneImplRepositorio implements TelefonePortaRepositorio {
 		}
 	}
 	
-	private Telefone instanciaTelefone(ResultSet rs) {
-		// TODO Auto-generated method stub
-		return null;
+	private Telefone instanciaTelefone(ResultSet rs) throws SQLException {
+		Telefone telefone =  new Telefone(
+				null, 
+				null, 
+				null, 
+				null, 
+				null, 
+				null, 
+				null);
+		return telefone;
 	}
 }

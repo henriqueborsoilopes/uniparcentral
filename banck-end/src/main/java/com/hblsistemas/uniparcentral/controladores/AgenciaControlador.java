@@ -45,7 +45,7 @@ public class AgenciaControlador {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody Agencia agencia) {
-		agenciaServico.atualizar(id, agencia);
+		agenciaServico.atualizar(agencia, id);
 		return ResponseEntity.ok().build();
 	}
 	

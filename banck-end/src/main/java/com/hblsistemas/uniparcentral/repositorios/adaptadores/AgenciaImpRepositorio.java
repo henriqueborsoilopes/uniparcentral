@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.hblsistemas.uniparcentral.entidades.Agencia;
@@ -19,7 +18,6 @@ import com.hblsistemas.uniparcentral.servicos.excecoes.BancoDadosExcecao;
 import com.hblsistemas.uniparcentral.servicos.excecoes.ObjetoNaoEncontradoExcecao;
 
 @Component
-@Primary
 public class AgenciaImpRepositorio implements AgenciaPortaRepositorio {
 	
 	private Connection conn = null;

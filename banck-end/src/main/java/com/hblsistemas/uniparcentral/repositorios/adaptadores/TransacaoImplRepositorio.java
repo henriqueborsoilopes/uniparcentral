@@ -4,21 +4,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import com.hblsistemas.uniparcentral.entidades.Conta;
 import com.hblsistemas.uniparcentral.entidades.Transacao;
+import com.hblsistemas.uniparcentral.entidades.enums.TipoTransacao;
 import com.hblsistemas.uniparcentral.repositorios.portas.TransacaoPortaRepositorio;
 import com.hblsistemas.uniparcentral.servicos.adaptadores.JdbcConexao;
 import com.hblsistemas.uniparcentral.servicos.excecoes.BancoDadosExcecao;
-import com.hblsistemas.uniparcentral.servicos.excecoes.ObjetoNaoEncontradoExcecao;
 
 @Component
-@Primary
 public class TransacaoImplRepositorio implements TransacaoPortaRepositorio {
 	
 	private Connection conn = null;
@@ -31,8 +30,15 @@ public class TransacaoImplRepositorio implements TransacaoPortaRepositorio {
 			conn = JdbcConexao.getConexao();
 			conn.setAutoCommit(false);
 			st = conn.prepareStatement(
-					"INSERT INTO transacao () " + 
-					"VALUES ()");
+					"INSERT INTO transacao (id, ra, data_hora, valor, tipo, conta_origem, conta_destino) " + 
+					"VALUES (?, ?, ?, ?, ?, ?, ?)");
+			st.setLong(1, transacao.getId());
+			st.setString(2, transacao.getRegistroAluno());
+			st.setTimestamp(3, Timestamp.from(transacao.getDataHora()));
+			st.setDouble(4, transacao.getValor());
+			st.setInt(5, transacao.getTipoTransacao().getCodigo());
+			st.setLong(6, transacao.getContaOrigem().getId());
+			st.setLong(7, transacao.getContaDestino().getId());
 			int rowsAffected = st.executeUpdate();
 			conn.commit();
 			if (rowsAffected > 0) {
@@ -58,16 +64,20 @@ public class TransacaoImplRepositorio implements TransacaoPortaRepositorio {
 	}
 
 	@Override
-	public List<Transacao> acharTodos() {
+	public List<Transacao> acharTodos(Long conta_id) {
 		List<Transacao> transacoes = new ArrayList<>();
-		Statement st = null;
+		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 			conn = JdbcConexao.getConexao();
-			st = conn.createStatement();
-			rs = st.executeQuery(
+			st = conn.prepareStatement(
 					"SELECT * " + 
-					"FROM transacao");
+					"FROM transacao" + 
+					"INNER JOIN conta co ON co.id = transacao.conta_origem " +
+					"INNER JOIN conta cd ON cd.id = transacao.conta_destino " + 
+					"WHERE co.id = ?");
+			st.setLong(1, conta_id);
+			rs = st.executeQuery();
 			while (rs.next()) {
 				transacoes.add(instanciaTransacao(rs));
 			}
@@ -81,38 +91,20 @@ public class TransacaoImplRepositorio implements TransacaoPortaRepositorio {
 		return transacoes;
 	}
 	
-	@Override
-	public Transacao acharPorId(Long id) {
-		Transacao transacao = null;
-		PreparedStatement st = null;
-		ResultSet rs = null;
-		try {
-			conn = JdbcConexao.getConexao();
-			st = conn.prepareStatement(
-					"SELECT * " + 
-					"FROM transacao " + 
-					"WHERE transacao.id = ?");
-			st.setLong(1, id);
-			rs = st.executeQuery();
-			if (rs.next()) {
-				transacao = instanciaTransacao(rs);
-			} else {
-				throw new ObjetoNaoEncontradoExcecao("Object não encontrado. Id: " + id);
-			}
-		} catch (SQLException e) {
-			throw new BancoDadosExcecao("Erro! Causado por: " + e.getMessage());
-		} finally {
-			JdbcConexao.fecharResultSet(rs);
-			JdbcConexao.fecharStatment(st);
-			JdbcConexao.fecharConexao();
-		}
-		return transacao;
-	}
-	
 	private Transacao instanciaTransacao(ResultSet rs) throws SQLException {
-		Transacao transacao = new Transacao();
-		transacao.setId(rs.getLong("id"));
-		transacao.setRegistroAluno(rs.getString("ra"));
+		Conta contaOrigem = new Conta();
+		contaOrigem.setId(rs.getLong("conta_origem"));
+		Conta contaDestino = new Conta();
+		contaDestino.setId(rs.getLong("conta_destino"));
+		Transacao transacao = new Transacao(
+				rs.getLong("id"), 
+				rs.getString("ra"), 
+				null, 
+				rs.getTimestamp("data_hora").toInstant(), 
+				rs.getDouble("valor"), 
+				TipoTransacao.paraEnum(rs.getInt("tipo")), 
+				contaOrigem, 
+				contaDestino);
 		return transacao;
 	}
 }

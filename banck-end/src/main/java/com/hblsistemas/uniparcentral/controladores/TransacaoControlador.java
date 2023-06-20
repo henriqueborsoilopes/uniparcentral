@@ -29,15 +29,9 @@ public class TransacaoControlador {
 		return ResponseEntity.ok().build();
 	}
 	
-	@GetMapping
-	public ResponseEntity<List<Transacao>> acharTodos() {
-		List<Transacao> transacoes = transacaoServico.acharTodos();
-		return ResponseEntity.ok().body(transacoes);
-	}
-	
 	@GetMapping("/{id}")
-	public ResponseEntity<Transacao> acharPorId(@PathVariable Long id) {
-		Transacao transacao = transacaoServico.acharPorId(id);
-		return ResponseEntity.ok().body(transacao);
+	public ResponseEntity<List<Transacao>> acharTodos(@PathVariable Long conta_id) {
+		List<Transacao> transacoes = transacaoServico.acharTodos(conta_id);
+		return ResponseEntity.ok().body(transacoes);
 	}
 }
