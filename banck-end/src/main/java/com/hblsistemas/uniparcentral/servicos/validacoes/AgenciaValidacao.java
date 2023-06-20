@@ -1,26 +1,26 @@
 package com.hblsistemas.uniparcentral.servicos.validacoes;
 
-import com.hblsistemas.uniparcentral.entidades.Agencia;
+import com.hblsistemas.uniparcentral.dtos.requests.AgenciaRequest;
 import com.hblsistemas.uniparcentral.servicos.excecoes.ValidacaoExcecao;
 
 public class AgenciaValidacao {
 		
-	public static void validarTodosCamposParaInserir(Agencia agencia) {
-		validarTodosCamposParaUpdate(agencia);
-		validarBancoId(agencia.getBanco().getId());
-		validarCodigo(agencia.getCodigo());
-		validarDigito(agencia.getDigito());
-		validarCnpj(agencia.getCnpj());
+	public static void validarTodosCamposParaInserir(AgenciaRequest agenciaDTO) {
+		validarTodosCamposParaUpdate(agenciaDTO);
+		validarBancoId(agenciaDTO.getBanco_id());
+		validarCodigo(agenciaDTO.getCodigo());
+		validarDigito(agenciaDTO.getDigito());
+		validarCnpj(agenciaDTO.getCnpj());
 	}
 	
-	public static void validarTodosCamposParaUpdate(Agencia agencia) {
-		validarObjetoNulo(agencia);
-		validarRazaosocial(agencia.getRazaoSocial());
-		validarRegistroAluno(agencia.getRegistroAluno());
+	public static void validarTodosCamposParaUpdate(AgenciaRequest agenciaDTO) {
+		validarObjetoNulo(agenciaDTO);
+		validarRazaosocial(agenciaDTO.getRazaoSocial());
+		validarRegistroAluno(agenciaDTO.getRegistroAluno());
 	}
 	
-	private static void validarObjetoNulo(Agencia agencia) {
-		if (agencia == null) {
+	private static void validarObjetoNulo(AgenciaRequest agenciaDTO) {
+		if (agenciaDTO == null) {
 			throw new ValidacaoExcecao("É obrigatório que um Agencia seja válido!");
 		}
 	}

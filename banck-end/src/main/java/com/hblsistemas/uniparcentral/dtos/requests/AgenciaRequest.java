@@ -1,8 +1,8 @@
-package com.hblsistemas.uniparcentral.dtos;
+package com.hblsistemas.uniparcentral.dtos.requests;
 
 import java.io.Serializable;
 
-public class AgenciaDTO implements Serializable {
+public class AgenciaRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
@@ -13,9 +13,9 @@ public class AgenciaDTO implements Serializable {
 	private String cnpj;
 	private Long banco_id;
 	
-	public AgenciaDTO() { }
+	public AgenciaRequest() { }
 
-	public AgenciaDTO(Long id, String registroAluno, String codigo, String digito, String razaoSocial, String cnpj, Long banco_id) {
+	public AgenciaRequest(Long id, String registroAluno, String codigo, String digito, String razaoSocial, String cnpj, Long banco_id) {
 		super();
 		this.id = id;
 		this.registroAluno = registroAluno;

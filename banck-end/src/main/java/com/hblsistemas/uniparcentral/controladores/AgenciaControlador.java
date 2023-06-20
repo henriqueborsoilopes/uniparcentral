@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hblsistemas.uniparcentral.dtos.AgenciaDTO;
+import com.hblsistemas.uniparcentral.dtos.requests.AgenciaRequest;
 import com.hblsistemas.uniparcentral.servicos.portas.AgenciaPortaServico;
 
 @RestController
@@ -26,25 +26,25 @@ public class AgenciaControlador {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> inserir(@RequestBody AgenciaDTO agenciaDTO) {
+	public ResponseEntity<Void> inserir(@RequestBody AgenciaRequest agenciaDTO) {
 		agenciaServico.inserir(agenciaDTO);
 		return ResponseEntity.ok().build();
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<AgenciaDTO>> acharTodos() {
-		List<AgenciaDTO> agenciasDTO = agenciaServico.acharTodos();
+	public ResponseEntity<List<AgenciaRequest>> acharTodos() {
+		List<AgenciaRequest> agenciasDTO = agenciaServico.acharTodos();
 		return ResponseEntity.ok().body(agenciasDTO);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<AgenciaDTO> acharPorId(@PathVariable Long id) {
-		AgenciaDTO agenciaDTO = agenciaServico.acharPorId(id);
+	public ResponseEntity<AgenciaRequest> acharPorId(@PathVariable Long id) {
+		AgenciaRequest agenciaDTO = agenciaServico.acharPorId(id);
 		return ResponseEntity.ok().body(agenciaDTO);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody AgenciaDTO agenciaDTO) {
+	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody AgenciaRequest agenciaDTO) {
 		agenciaServico.atualizar(agenciaDTO, id);
 		return ResponseEntity.ok().build();
 	}
