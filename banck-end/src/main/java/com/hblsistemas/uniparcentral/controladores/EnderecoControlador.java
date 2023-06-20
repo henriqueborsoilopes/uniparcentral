@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hblsistemas.uniparcentral.entidades.Endereco;
-import com.hblsistemas.uniparcentral.servicos.adaptadores.EnderecoImpServico;
+import com.hblsistemas.uniparcentral.servicos.portas.EnderecoPortaServico;
 
 @RestController
 @RequestMapping("/enderecos")
 public class EnderecoControlador {
 	
-	private EnderecoImpServico enderecoServico;
+	private EnderecoPortaServico enderecoServico;
 	
-	public EnderecoControlador(EnderecoImpServico enderecoServico) {
+	public EnderecoControlador(EnderecoPortaServico enderecoServico) {
 		this.enderecoServico = enderecoServico;
 	}
 	
@@ -45,7 +45,7 @@ public class EnderecoControlador {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody Endereco endereco) {
-		enderecoServico.atualizar(id, endereco);
+		enderecoServico.atualizar(endereco, id);
 		return ResponseEntity.ok().build();
 	}
 	

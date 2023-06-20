@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hblsistemas.uniparcentral.entidades.Telefone;
-import com.hblsistemas.uniparcentral.servicos.adaptadores.TelefoneImpServico;
+import com.hblsistemas.uniparcentral.servicos.portas.TelefonePortaServico;
 
 @RestController
 @RequestMapping("/telefones")
 public class TelefoneControlador {
 	
-	private TelefoneImpServico telefoneServico;
+	private TelefonePortaServico telefoneServico;
 	
-	public TelefoneControlador(TelefoneImpServico telefoneServico) {
+	public TelefoneControlador(TelefonePortaServico telefoneServico) {
 		this.telefoneServico = telefoneServico;
 	}
 	
@@ -45,7 +45,7 @@ public class TelefoneControlador {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody Telefone telefone) {
-		telefoneServico.atualizar(id, telefone);
+		telefoneServico.atualizar(telefone, id);
 		return ResponseEntity.ok().build();
 	}
 	

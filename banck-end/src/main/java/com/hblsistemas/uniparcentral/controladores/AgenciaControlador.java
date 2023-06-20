@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hblsistemas.uniparcentral.entidades.Agencia;
-import com.hblsistemas.uniparcentral.servicos.adaptadores.AgenciaImpServico;
+import com.hblsistemas.uniparcentral.servicos.portas.AgenciaPortaServico;
 
 @RestController
 @RequestMapping("/agencias")
 public class AgenciaControlador {
 	
-	private AgenciaImpServico agenciaServico;
+	private AgenciaPortaServico agenciaServico;
 	
-	public AgenciaControlador(AgenciaImpServico agenciaServico) {
+	public AgenciaControlador(AgenciaPortaServico agenciaServico) {
 		this.agenciaServico = agenciaServico;
 	}
 	

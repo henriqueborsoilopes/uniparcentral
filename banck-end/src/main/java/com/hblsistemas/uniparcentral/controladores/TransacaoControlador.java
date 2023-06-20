@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hblsistemas.uniparcentral.entidades.Transacao;
-import com.hblsistemas.uniparcentral.servicos.adaptadores.TransacaoImpServico;
+import com.hblsistemas.uniparcentral.servicos.portas.TransacaoPortaServico;
 
 @RestController
 @RequestMapping("/transacoes")
 public class TransacaoControlador {
 	
-	private TransacaoImpServico transacaoServico;
+	private TransacaoPortaServico transacaoServico;
 	
-	public TransacaoControlador(TransacaoImpServico transacaoServico) {
+	public TransacaoControlador(TransacaoPortaServico transacaoServico) {
 		this.transacaoServico = transacaoServico;
 	}
 	

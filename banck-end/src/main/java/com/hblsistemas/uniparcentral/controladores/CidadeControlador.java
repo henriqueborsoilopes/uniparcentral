@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hblsistemas.uniparcentral.entidades.Cidade;
-import com.hblsistemas.uniparcentral.servicos.adaptadores.CidadeImpServico;
+import com.hblsistemas.uniparcentral.servicos.portas.CidadePortaServico;
 
 @RestController
 @RequestMapping("/cidades")
 public class CidadeControlador {
 	
-	private CidadeImpServico cidadeServico;
+	private CidadePortaServico cidadeServico;
 	
-	public CidadeControlador(CidadeImpServico cidadeServico) {
+	public CidadeControlador(CidadePortaServico cidadeServico) {
 		this.cidadeServico = cidadeServico;
 	}
 	
@@ -45,7 +45,7 @@ public class CidadeControlador {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody Cidade cidade) {
-		cidadeServico.atualizar(id, cidade);
+		cidadeServico.atualizar(cidade, id);
 		return ResponseEntity.ok().build();
 	}
 	

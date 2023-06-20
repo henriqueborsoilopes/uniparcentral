@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hblsistemas.uniparcentral.entidades.Banco;
-import com.hblsistemas.uniparcentral.servicos.adaptadores.BancoImpServico;
+import com.hblsistemas.uniparcentral.servicos.portas.BancoPortaServico;
 
 @RestController
 @RequestMapping("/bancos")
 public class BancoControlador {
 	
-	private BancoImpServico bancoServico;
+	private BancoPortaServico bancoServico;
 	
-	public BancoControlador(BancoImpServico bancoServico) {
+	public BancoControlador(BancoPortaServico bancoServico) {
 		this.bancoServico = bancoServico;
 	}
 	
@@ -45,7 +45,7 @@ public class BancoControlador {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody Banco banco) {
-		bancoServico.atualizar(id, banco);
+		bancoServico.atualizar(banco, id);
 		return ResponseEntity.ok().build();
 	}
 	

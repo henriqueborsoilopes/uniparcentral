@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hblsistemas.uniparcentral.entidades.Pais;
-import com.hblsistemas.uniparcentral.servicos.adaptadores.PaisImpServico;
+import com.hblsistemas.uniparcentral.servicos.portas.PaisPortaServico;
 
 @RestController
 @RequestMapping("/paises")
 public class PaisControlador {
 	
-	private PaisImpServico paisServico;
+	private PaisPortaServico paisServico;
 	
-	public PaisControlador(PaisImpServico paisServico) {
+	public PaisControlador(PaisPortaServico paisServico) {
 		this.paisServico = paisServico;
 	}
 	
@@ -45,7 +45,7 @@ public class PaisControlador {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody Pais pais) {
-		paisServico.atualizar(id, pais);
+		paisServico.atualizar(pais, id);
 		return ResponseEntity.ok().build();
 	}
 	

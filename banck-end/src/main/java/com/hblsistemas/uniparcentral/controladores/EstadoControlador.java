@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hblsistemas.uniparcentral.entidades.Estado;
-import com.hblsistemas.uniparcentral.servicos.adaptadores.EstadoImpServico;
+import com.hblsistemas.uniparcentral.servicos.portas.EstadoPortaServico;
 
 @RestController
 @RequestMapping("/estados")
 public class EstadoControlador {
 	
-	private EstadoImpServico estadoServico;
+	private EstadoPortaServico estadoServico;
 	
-	public EstadoControlador(EstadoImpServico estadoServico) {
+	public EstadoControlador(EstadoPortaServico estadoServico) {
 		this.estadoServico = estadoServico;
 	}
 	
@@ -45,7 +45,7 @@ public class EstadoControlador {
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody Estado estado) {
-		estadoServico.atualizar(id, estado);
+		estadoServico.atualizar(estado, id);
 		return ResponseEntity.ok().build();
 	}
 	
