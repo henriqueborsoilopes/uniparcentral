@@ -2,13 +2,14 @@ package com.hblsistemas.uniparcentral.servicos.portas;
 
 import java.util.List;
 
-import com.hblsistemas.uniparcentral.entidades.Pais;
+import com.hblsistemas.uniparcentral.dtos.requests.PaisRequest;
+import com.hblsistemas.uniparcentral.dtos.responses.PaisResponse;
 
 public interface PaisPortaServico {
 	
-	public Pais inserir(Pais pais);
-	public List<Pais> acharTodos();
-	public Pais acharPorId(Long id);
-	public void atualizar(Pais pais, Long id);
+	public PaisResponse inserir(PaisRequest pais);
+	public List<PaisResponse> acharTodos();
+	public PaisResponse acharPorId(Long id);
+	public void atualizar(PaisRequest pais, Long id);
 	public void deletar(Long id);
 }

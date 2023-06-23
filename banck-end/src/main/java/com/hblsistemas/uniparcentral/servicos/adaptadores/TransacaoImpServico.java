@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.hblsistemas.uniparcentral.entidades.Transacao;
+import com.hblsistemas.uniparcentral.dtos.requests.TransacaoRequest;
+import com.hblsistemas.uniparcentral.dtos.responses.TransacaoResponse;
 import com.hblsistemas.uniparcentral.entidades.enums.TipoOperacao;
+import com.hblsistemas.uniparcentral.modelmapper.TransacaoMapper;
 import com.hblsistemas.uniparcentral.repositorios.portas.TransacaoPortaRepositorio;
 import com.hblsistemas.uniparcentral.servicos.portas.TransacaoPortaServico;
 import com.hblsistemas.uniparcentral.servicos.validacoes.TransacaoValidacao;
@@ -14,23 +16,25 @@ import com.hblsistemas.uniparcentral.servicos.validacoes.TransacaoValidacao;
 public class TransacaoImpServico implements TransacaoPortaServico {
 	
 	private final TransacaoPortaRepositorio transacaoRepositorioPorta;
+	private final TransacaoMapper mapper;
 	private final ContaImpServico contaServico;
 	
-	public TransacaoImpServico(TransacaoPortaRepositorio transacaoRepositorioPorta, ContaImpServico contaServico) {
+	public TransacaoImpServico(TransacaoPortaRepositorio transacaoRepositorioPorta, ContaImpServico contaServico, TransacaoMapper mapper) {
 		this.transacaoRepositorioPorta = transacaoRepositorioPorta;
 		this.contaServico = contaServico;
+		this.mapper = mapper;
 	}
 	
 	@Override
-	public Transacao inserir(Transacao transacao) {
-		TransacaoValidacao.validarTodosCampos(transacao);
-		contaServico.atualizarSaldo(transacao.getContaOrigem().getId(), transacao.getValor(), TipoOperacao.SAIDA);
-		contaServico.atualizarSaldo(transacao.getContaDestino().getId(), transacao.getValor(), TipoOperacao.ENTRADA);
-		return transacaoRepositorioPorta.inserir(transacao);
+	public TransacaoResponse inserir(TransacaoRequest request) {
+		TransacaoValidacao.validarTodosCampos(request);
+		contaServico.atualizarSaldo(request.getId(), request.getValor(), TipoOperacao.SAIDA);
+		contaServico.atualizarSaldo(request.getId(), request.getValor(), TipoOperacao.ENTRADA);
+		return mapper.paraResposta(transacaoRepositorioPorta.inserir(mapper.paraEntidade(request)));
 	}
 	
 	@Override
-	public List<Transacao> acharTodos(Long conta_id) {
-		return transacaoRepositorioPorta.acharTodos(conta_id);
+	public List<TransacaoResponse> acharTodos(Long conta_id) {
+		return  mapper.paraRespostaLista(transacaoRepositorioPorta.acharTodos(conta_id));
 	}
 }

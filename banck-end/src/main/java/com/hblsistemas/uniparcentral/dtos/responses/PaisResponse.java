@@ -1,19 +1,21 @@
-package com.hblsistemas.uniparcentral.dtos.response;
+package com.hblsistemas.uniparcentral.dtos.responses;
 
 import java.io.Serializable;
 
-public class BancoResponde implements Serializable {
+public class PaisResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private String nome;
+	private String sigla;
 	
-	public BancoResponde() { }
+	public PaisResponse() { }
 
-	public BancoResponde(Long id, String nome) {
+	public PaisResponse(Long id, String nome, String sigla) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.sigla = sigla;
 	}
 
 	public Long getId() {
@@ -30,5 +32,13 @@ public class BancoResponde implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String getSigla() {
+		return sigla;
+	}
+
+	public void setSigla(String sigla) {
+		this.sigla = sigla;
 	}
 }

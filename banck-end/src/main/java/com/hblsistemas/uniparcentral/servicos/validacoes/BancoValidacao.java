@@ -1,18 +1,18 @@
 package com.hblsistemas.uniparcentral.servicos.validacoes;
 
-import com.hblsistemas.uniparcentral.entidades.Banco;
+import com.hblsistemas.uniparcentral.dtos.requests.BancoRequest;
 import com.hblsistemas.uniparcentral.servicos.excecoes.ValidacaoExcecao;
 
 public class BancoValidacao {
 	
-	public static void validarTodosCampos(Banco banco) {
-		validarObjetoNulo(banco);
-		validarNome(banco.getNome());
-		validarRegistroAluno(banco.getRegistroAluno());
+	public static void validarTodosCampos(BancoRequest request) {
+		validarObjetoNulo(request);
+		validarNome(request.getNome());
+		validarRegistroAluno(request.getRegistroAluno());
 	}
 	
-	private static void validarObjetoNulo(Banco banco) {
-		if (banco == null) {
+	private static void validarObjetoNulo(BancoRequest request) {
+		if (request == null) {
 			throw new ValidacaoExcecao("Os dados do Banco são obrigatório o preenchimento.");
 		}
 	}

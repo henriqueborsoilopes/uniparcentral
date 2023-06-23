@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hblsistemas.uniparcentral.entidades.Endereco;
+import com.hblsistemas.uniparcentral.dtos.requests.EnderecoRequest;
+import com.hblsistemas.uniparcentral.dtos.responses.EnderecoResponse;
 import com.hblsistemas.uniparcentral.servicos.portas.EnderecoPortaServico;
 
 @RestController
@@ -26,25 +27,25 @@ public class EnderecoControlador {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> inserir(@RequestBody Endereco endereco) {
+	public ResponseEntity<Void> inserir(@RequestBody EnderecoRequest endereco) {
 		enderecoServico.inserir(endereco);
 		return ResponseEntity.ok().build();
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Endereco>> acharTodos() {
-		List<Endereco> enderecos = enderecoServico.acharTodos();
+	public ResponseEntity<List<EnderecoResponse>> acharTodos() {
+		List<EnderecoResponse> enderecos = enderecoServico.acharTodos();
 		return ResponseEntity.ok().body(enderecos);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Endereco> acharPorId(@PathVariable Long id) {
-		Endereco endereco = enderecoServico.acharPorId(id);
+	public ResponseEntity<EnderecoResponse> acharPorId(@PathVariable Long id) {
+		EnderecoResponse endereco = enderecoServico.acharPorId(id);
 		return ResponseEntity.ok().body(endereco);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody Endereco endereco) {
+	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody EnderecoRequest endereco) {
 		enderecoServico.atualizar(endereco, id);
 		return ResponseEntity.ok().build();
 	}

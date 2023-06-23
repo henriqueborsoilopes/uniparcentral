@@ -2,13 +2,14 @@ package com.hblsistemas.uniparcentral.servicos.portas;
 
 import java.util.List;
 
-import com.hblsistemas.uniparcentral.entidades.Cidade;
+import com.hblsistemas.uniparcentral.dtos.requests.CidadeRequest;
+import com.hblsistemas.uniparcentral.dtos.responses.CidadeResponse;
 
 public interface CidadePortaServico {
 	
-	public Cidade inserir(Cidade cidade);
-	public List<Cidade> acharTodos();
-	public Cidade acharPorId(Long id);
-	public void atualizar(Cidade cidade, Long id);
+	public CidadeResponse inserir(CidadeRequest cidade);
+	public List<CidadeResponse> acharTodos();
+	public CidadeResponse acharPorId(Long id);
+	public void atualizar(CidadeRequest cidade, Long id);
 	public void deletar(Long id);
 }

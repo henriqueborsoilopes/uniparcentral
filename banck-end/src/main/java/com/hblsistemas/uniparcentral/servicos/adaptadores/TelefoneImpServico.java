@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.hblsistemas.uniparcentral.entidades.Telefone;
+import com.hblsistemas.uniparcentral.dtos.requests.TelefoneRequest;
+import com.hblsistemas.uniparcentral.dtos.responses.TelefoneResponse;
+import com.hblsistemas.uniparcentral.modelmapper.TelefoneMapper;
 import com.hblsistemas.uniparcentral.repositorios.portas.TelefonePortaRepositorio;
 import com.hblsistemas.uniparcentral.servicos.portas.TelefonePortaServico;
 import com.hblsistemas.uniparcentral.servicos.validacoes.TelefoneValidacao;
@@ -13,31 +15,33 @@ import com.hblsistemas.uniparcentral.servicos.validacoes.TelefoneValidacao;
 public class TelefoneImpServico implements TelefonePortaServico {
 	
 	private final TelefonePortaRepositorio telefoneRepositorioPorta;
+	private final TelefoneMapper mapper;
 	
-	public TelefoneImpServico(TelefonePortaRepositorio telefoneRepositorioPorta) {
+	public TelefoneImpServico(TelefonePortaRepositorio telefoneRepositorioPorta, TelefoneMapper mapper) {
 		this.telefoneRepositorioPorta = telefoneRepositorioPorta;
+		this.mapper = mapper;
 	}
 	
 	@Override
-	public Telefone inserir(Telefone telefone) {
-		TelefoneValidacao.validarTodosCampos(telefone);
-		return telefoneRepositorioPorta.inserir(telefone);
+	public TelefoneResponse inserir(TelefoneRequest request) {
+		TelefoneValidacao.validarTodosCampos(request);
+		return mapper.paraResposta(telefoneRepositorioPorta.inserir(mapper.paraEntidade(request)));
 	}
 	
 	@Override
-	public List<Telefone> acharTodos() {
-		return telefoneRepositorioPorta.acharTodos();
+	public List<TelefoneResponse> acharTodos() {
+		return mapper.paraRespostaLista(telefoneRepositorioPorta.acharTodos());
 	}
 	
 	@Override
-	public Telefone acharPorId(Long id) {
-		return telefoneRepositorioPorta.acharPorId(id);
+	public TelefoneResponse acharPorId(Long id) {
+		return mapper.paraResposta(telefoneRepositorioPorta.acharPorId(id));
 	}
 	
 	@Override
-	public void atualizar(Telefone telefone, Long id) {
-		TelefoneValidacao.validarTodosCampos(telefone);
-		telefoneRepositorioPorta.atualizar(telefone, id);
+	public void atualizar(TelefoneRequest request, Long id) {
+		TelefoneValidacao.validarTodosCampos(request);
+		telefoneRepositorioPorta.atualizar(mapper.paraEntidade(request), id);
 	}
 	
 	@Override

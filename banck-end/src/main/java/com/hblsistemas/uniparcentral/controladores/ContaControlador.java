@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hblsistemas.uniparcentral.entidades.Conta;
+import com.hblsistemas.uniparcentral.dtos.requests.ContaRequest;
+import com.hblsistemas.uniparcentral.dtos.responses.ContaResponse;
 import com.hblsistemas.uniparcentral.servicos.portas.ContaPortaServico;
 
 @RestController
@@ -25,20 +26,20 @@ public class ContaControlador {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> inserir(@RequestBody Conta conta) {
+	public ResponseEntity<Void> inserir(@RequestBody ContaRequest conta) {
 		contaServico.inserir(conta);
 		return ResponseEntity.ok().build();
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Conta>> acharTodos() {
-		List<Conta> contas = contaServico.acharTodos();
+	public ResponseEntity<List<ContaResponse>> acharTodos() {
+		List<ContaResponse> contas = contaServico.acharTodos();
 		return ResponseEntity.ok().body(contas);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Conta> acharPorId(@PathVariable Long id) {
-		Conta conta = contaServico.acharPorId(id);
+	public ResponseEntity<ContaResponse> acharPorId(@PathVariable Long id) {
+		ContaResponse conta = contaServico.acharPorId(id);
 		return ResponseEntity.ok().body(conta);
 	}
 	

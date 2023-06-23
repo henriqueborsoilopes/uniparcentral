@@ -1,24 +1,24 @@
 package com.hblsistemas.uniparcentral.servicos.validacoes;
 
-import com.hblsistemas.uniparcentral.entidades.Estado;
+import com.hblsistemas.uniparcentral.dtos.requests.EstadoRequest;
 import com.hblsistemas.uniparcentral.servicos.excecoes.ValidacaoExcecao;
 
 public class EstadoValidacao {
 	
-	public static void validarTodosCamposParaInserir(Estado estado) {
-		validarTodosCamposParaUpdate(estado);
-		validarPaisId(estado.getPais() == null ? null : estado.getPais().getId());
+	public static void validarTodosCamposParaInserir(EstadoRequest request) {
+		validarTodosCamposParaUpdate(request);
+		validarPaisId(request.getPais_id());
 	}
 	
-	public static void validarTodosCamposParaUpdate(Estado estado) {
-		validarObjetoNulo(estado);
-		validarNome(estado.getNome());
-		validarRegistroAluno(estado.getRegistroAluno());
-		validarSigla(estado.getSigla());
+	public static void validarTodosCamposParaUpdate(EstadoRequest request) {
+		validarObjetoNulo(request);
+		validarNome(request.getNome());
+		validarRegistroAluno(request.getRegistroAluno());
+		validarSigla(request.getSigla());
 	}
 	
-	private static void validarObjetoNulo(Estado estado) {
-		if (estado == null) {
+	private static void validarObjetoNulo(EstadoRequest request) {
+		if (request == null) {
 			throw new ValidacaoExcecao("É obrigatório que um Estado seja válido!");
 		}
 	}

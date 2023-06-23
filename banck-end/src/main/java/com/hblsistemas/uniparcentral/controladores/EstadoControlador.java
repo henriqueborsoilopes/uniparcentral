@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hblsistemas.uniparcentral.entidades.Estado;
+import com.hblsistemas.uniparcentral.dtos.requests.EstadoRequest;
+import com.hblsistemas.uniparcentral.dtos.responses.EstadoResponse;
 import com.hblsistemas.uniparcentral.servicos.portas.EstadoPortaServico;
 
 @RestController
@@ -26,25 +27,25 @@ public class EstadoControlador {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> inserir(@RequestBody Estado estado) {
+	public ResponseEntity<Void> inserir(@RequestBody EstadoRequest estado) {
 		estadoServico.inserir(estado);
 		return ResponseEntity.ok().build();
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Estado>> acharTodos() {
-		List<Estado> estados = estadoServico.acharTodos();
+	public ResponseEntity<List<EstadoResponse>> acharTodos() {
+		List<EstadoResponse> estados = estadoServico.acharTodos();
 		return ResponseEntity.ok().body(estados);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Estado> acharPorId(@PathVariable Long id) {
-		Estado estado = estadoServico.acharPorId(id);
+	public ResponseEntity<EstadoResponse> acharPorId(@PathVariable Long id) {
+		EstadoResponse estado = estadoServico.acharPorId(id);
 		return ResponseEntity.ok().body(estado);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody Estado estado) {
+	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody EstadoRequest estado) {
 		estadoServico.atualizar(estado, id);
 		return ResponseEntity.ok().build();
 	}

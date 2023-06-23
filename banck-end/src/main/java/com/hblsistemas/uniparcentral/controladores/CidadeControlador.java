@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hblsistemas.uniparcentral.entidades.Cidade;
+import com.hblsistemas.uniparcentral.dtos.requests.CidadeRequest;
+import com.hblsistemas.uniparcentral.dtos.responses.CidadeResponse;
 import com.hblsistemas.uniparcentral.servicos.portas.CidadePortaServico;
 
 @RestController
@@ -26,25 +27,25 @@ public class CidadeControlador {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> inserir(@RequestBody Cidade cidade) {
+	public ResponseEntity<Void> inserir(@RequestBody CidadeRequest cidade) {
 		cidadeServico.inserir(cidade);
 		return ResponseEntity.ok().build();
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Cidade>> acharTodos() {
-		List<Cidade> cidades = cidadeServico.acharTodos();
+	public ResponseEntity<List<CidadeResponse>> acharTodos() {
+		List<CidadeResponse> cidades = cidadeServico.acharTodos();
 		return ResponseEntity.ok().body(cidades);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Cidade> acharPorId(@PathVariable Long id) {
-		Cidade cidade = cidadeServico.acharPorId(id);
+	public ResponseEntity<CidadeResponse> acharPorId(@PathVariable Long id) {
+		CidadeResponse cidade = cidadeServico.acharPorId(id);
 		return ResponseEntity.ok().body(cidade);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody Cidade cidade) {
+	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody CidadeRequest cidade) {
 		cidadeServico.atualizar(cidade, id);
 		return ResponseEntity.ok().build();
 	}

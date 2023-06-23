@@ -1,17 +1,17 @@
-package com.hblsistemas.uniparcentral.dtos.response;
+package com.hblsistemas.uniparcentral.dtos.responses;
 
 import java.io.Serializable;
 
-public class CidadeResponde implements Serializable {
+public class CidadeResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private String nome;
 	private String estadoNome;
 	
-	public CidadeResponde() { }
+	public CidadeResponse() { }
 
-	public CidadeResponde(Long id, String nome, String estadoNome) {
+	public CidadeResponse(Long id, String nome, String estadoNome) {
 		super();
 		this.id = id;
 		this.nome = nome;

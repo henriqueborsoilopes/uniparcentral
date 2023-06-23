@@ -1,32 +1,20 @@
 package com.hblsistemas.uniparcentral.servicos.validacoes;
 
-import com.hblsistemas.uniparcentral.entidades.Agencia;
-import com.hblsistemas.uniparcentral.entidades.Telefone;
-import com.hblsistemas.uniparcentral.entidades.abstratas.Pessoa;
-import com.hblsistemas.uniparcentral.entidades.enums.TipoOperadora;
+import com.hblsistemas.uniparcentral.dtos.requests.TelefoneRequest;
 import com.hblsistemas.uniparcentral.servicos.excecoes.ValidacaoExcecao;
-
-import jakarta.persistence.ManyToOne;
 
 public class TelefoneValidacao {
 	
-	@ManyToOne
-	private Agencia titularAgencia;
-	
-	@ManyToOne
-	private Pessoa titularPessoa;
-	
-	public static void validarTodosCampos(Telefone telefone) {
-		validarObjetoNulo(telefone);
-		validarRegistroAluno(telefone.getRegistroAluno());
-		validarTelNumero(telefone.getNumero());
-		validarTipoOperadora(telefone.getTipoOperadora());
-		validarTitularAgencia(telefone.getTitularAgencia());
-		validarTitularPessoa(telefone.getTitularPessoa());
+	public static void validarTodosCampos(TelefoneRequest request) {
+		validarObjetoNulo(request);
+		validarRegistroAluno(request.getRegistroAluno());
+		validarTelNumero(request.getNumero());
+		validarTitularAgencia(request.getTitularAgenciaId());
+		validarTitularPessoa(request.getTitularPessoaId());
 	}
 	
-	private static void validarObjetoNulo(Telefone telefone) {
-		if (telefone == null) {
+	private static void validarObjetoNulo(TelefoneRequest request) {
+		if (request == null) {
 			throw new ValidacaoExcecao("Os dados do Banco são obrigatório o preenchimento.");
 		}
 	}
@@ -57,19 +45,13 @@ public class TelefoneValidacao {
 		}	
 	}
 	
-	private static void validarTipoOperadora(TipoOperadora tipoOperadora) {
-		if (tipoOperadora == null) {
-			throw new ValidacaoExcecao("O campo Tipo Operadora é obrigatório o preenchimento.");
-		}	
-	}
-	
-	private static void validarTitularAgencia(Agencia agencia) {
+	private static void validarTitularAgencia(Long agencia) {
 		if (agencia == null) {
 			throw new ValidacaoExcecao("O compo Agencia é obrigatório o preenchimento");
 		}
 	}
 	
-	private static void validarTitularPessoa(Pessoa pessoa) {
+	private static void validarTitularPessoa(Long pessoa) {
 		if (pessoa == null) {
 			throw new ValidacaoExcecao("O compo Pessoa é obrigatório o preenchimento");
 		}

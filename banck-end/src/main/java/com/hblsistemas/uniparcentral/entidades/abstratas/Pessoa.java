@@ -4,11 +4,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.hblsistemas.uniparcentral.entidades.PessoaFisica;
-import com.hblsistemas.uniparcentral.entidades.PessoaJuridica;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,11 +13,6 @@ import jakarta.persistence.InheritanceType;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonSubTypes({
-    @JsonSubTypes.Type(value = PessoaJuridica.class, name = "pessoaJuridica"),
-    @JsonSubTypes.Type(value = PessoaFisica.class, name = "pessoaFisica")
-})
 public abstract class Pessoa implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

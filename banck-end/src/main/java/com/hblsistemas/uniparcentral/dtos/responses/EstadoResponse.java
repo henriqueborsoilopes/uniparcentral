@@ -1,23 +1,23 @@
-package com.hblsistemas.uniparcentral.dtos.response;
+package com.hblsistemas.uniparcentral.dtos.responses;
 
 import java.io.Serializable;
 
-public class EstadoResponde implements Serializable {
+public class EstadoResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private String nome;
 	private String sigla;
-	private String paisNome;
+	private PaisResponse paisResponse;
 	
-	public EstadoResponde() { }
+	public EstadoResponse() { }
 
-	public EstadoResponde(Long id, String nome, String sigla, String paisNome) {
+	public EstadoResponse(Long id, String nome, String sigla, PaisResponse paisResponse) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.sigla = sigla;
-		this.paisNome = paisNome;
+		this.paisResponse = paisResponse;
 	}
 
 	public Long getId() {
@@ -44,11 +44,11 @@ public class EstadoResponde implements Serializable {
 		this.sigla = sigla;
 	}
 
-	public String getPaisNome() {
-		return paisNome;
+	public PaisResponse getPaisResponse() {
+		return paisResponse;
 	}
 
-	public void setPaisNome(String paisNome) {
-		this.paisNome = paisNome;
+	public void setPaisResponse(PaisResponse paisResponse) {
+		this.paisResponse = paisResponse;
 	}
 }

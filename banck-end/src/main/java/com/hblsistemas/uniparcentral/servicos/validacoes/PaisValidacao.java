@@ -1,19 +1,19 @@
 package com.hblsistemas.uniparcentral.servicos.validacoes;
 
-import com.hblsistemas.uniparcentral.entidades.Pais;
+import com.hblsistemas.uniparcentral.dtos.requests.PaisRequest;
 import com.hblsistemas.uniparcentral.servicos.excecoes.ValidacaoExcecao;
 
 public class PaisValidacao {
 	
-	public static void validarTodosCampos(Pais pais) {
-		validarObjetoNulo(pais);
-		validarNome(pais.getNome());
-		validarRegistroAluno(pais.getRegistroAluno());
-		validarSigla(pais.getSigla());
+	public static void validarTodosCampos(PaisRequest request) {
+		validarObjetoNulo(request);
+		validarNome(request.getNome());
+		validarRegistroAluno(request.getRegistroAluno());
+		validarSigla(request.getSigla());
 	}
 	
-	private static void validarObjetoNulo(Pais pais) {
-		if (pais == null) {
+	private static void validarObjetoNulo(PaisRequest request) {
+		if (request == null) {
 			throw new ValidacaoExcecao("É obrigatório que um País seja válido!");
 		}
 	}

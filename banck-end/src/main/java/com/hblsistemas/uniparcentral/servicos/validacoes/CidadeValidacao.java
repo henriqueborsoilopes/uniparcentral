@@ -1,23 +1,23 @@
 package com.hblsistemas.uniparcentral.servicos.validacoes;
 
-import com.hblsistemas.uniparcentral.entidades.Cidade;
+import com.hblsistemas.uniparcentral.dtos.requests.CidadeRequest;
 import com.hblsistemas.uniparcentral.servicos.excecoes.ValidacaoExcecao;
 
 public class CidadeValidacao {
 		
-	public static void validarTodosCamposParaInserir(Cidade cidade) {
-		validarTodosCamposParaUpdate(cidade);
-		validarEstadoId(cidade.getEstado().getId());
+	public static void validarTodosCamposParaInserir(CidadeRequest request) {
+		validarTodosCamposParaUpdate(request);
+		validarEstadoId(request.getEstado_id());
 	}
 	
-	public static void validarTodosCamposParaUpdate(Cidade cidade) {
-		validarObjetoNulo(cidade);
-		validarNome(cidade.getNome());
-		validarRegistroAluno(cidade.getRegistroAluno());
+	public static void validarTodosCamposParaUpdate(CidadeRequest request) {
+		validarObjetoNulo(request);
+		validarNome(request.getNome());
+		validarRegistroAluno(request.getRegistroAluno());
 	}
 	
-	private static void validarObjetoNulo(Cidade cidade) {
-		if (cidade == null) {
+	private static void validarObjetoNulo(CidadeRequest request) {
+		if (request == null) {
 			throw new ValidacaoExcecao("É obrigatório que um Cidade seja válido!");
 		}
 	}

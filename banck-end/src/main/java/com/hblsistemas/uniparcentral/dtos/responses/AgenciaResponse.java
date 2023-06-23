@@ -1,4 +1,4 @@
-package com.hblsistemas.uniparcentral.dtos.response;
+package com.hblsistemas.uniparcentral.dtos.responses;
 
 import java.io.Serializable;
 

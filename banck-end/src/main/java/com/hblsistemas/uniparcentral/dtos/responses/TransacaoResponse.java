@@ -1,9 +1,9 @@
-package com.hblsistemas.uniparcentral.dtos.response;
+package com.hblsistemas.uniparcentral.dtos.responses;
 
 import java.io.Serializable;
 import java.time.Instant;
 
-public class TransacaoResponde implements Serializable {
+public class TransacaoResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
@@ -11,9 +11,9 @@ public class TransacaoResponde implements Serializable {
 	private Double valor;
 	private Integer tipoTransacao;
 	
-	public TransacaoResponde() { }
+	public TransacaoResponse() { }
 
-	public TransacaoResponde(Long id, Instant dataHora, Double valor, Integer tipoTransacao) {
+	public TransacaoResponse(Long id, Instant dataHora, Double valor, Integer tipoTransacao) {
 		super();
 		this.id = id;
 		this.dataHora = dataHora;

@@ -1,24 +1,24 @@
 package com.hblsistemas.uniparcentral.servicos.validacoes;
 
-import com.hblsistemas.uniparcentral.entidades.Endereco;
+import com.hblsistemas.uniparcentral.dtos.requests.EnderecoRequest;
 import com.hblsistemas.uniparcentral.servicos.excecoes.ValidacaoExcecao;
 
 public class EnderecoValidacao {
 		
-	public static void validarTodosCampos(Endereco endereco) {
-		validarObjetoNulo(endereco);
-		validarRegistroAluno(endereco.getRegistroAluno());
-		validarLougradouro(endereco.getLogradouro());
-		validarCidadeId(endereco.getCidade().getId());
-		validarMoradorId(endereco.getMorador().getId());
-		validarEndNumero(endereco.getNumero());
-		validarBairro(endereco.getBairro());
-		validarCep(endereco.getCep());
-		validarComplemento(endereco.getComplemento());
+	public static void validarTodosCampos(EnderecoRequest request) {
+		validarObjetoNulo(request);
+		validarRegistroAluno(request.getRegistroAluno());
+		validarLougradouro(request.getLogradouro());
+		validarCidadeId(request.getCidade_id());
+		validarMoradorId(request.getMorador_id());
+		validarEndNumero(request.getNumero());
+		validarBairro(request.getBairro());
+		validarCep(request.getCep());
+		validarComplemento(request.getComplemento());
 	}
 	
-	private static void validarObjetoNulo(Endereco endereco) {
-		if (endereco == null) {
+	private static void validarObjetoNulo(EnderecoRequest request) {
+		if (request == null) {
 			throw new ValidacaoExcecao("É obrigatório que um Endereço seja válido!");
 		}
 	}

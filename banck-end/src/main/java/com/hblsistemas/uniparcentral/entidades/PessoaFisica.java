@@ -8,7 +8,6 @@ import com.hblsistemas.uniparcentral.entidades.abstratas.Pessoa;
 import jakarta.persistence.Entity;
 
 @Entity
-//@JsonTypeName("pessoaFisica")
 public class PessoaFisica extends Pessoa {
 	private static final long serialVersionUID = 1L;
 	

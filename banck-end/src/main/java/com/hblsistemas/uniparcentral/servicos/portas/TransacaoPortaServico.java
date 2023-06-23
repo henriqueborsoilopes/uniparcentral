@@ -2,10 +2,11 @@ package com.hblsistemas.uniparcentral.servicos.portas;
 
 import java.util.List;
 
-import com.hblsistemas.uniparcentral.entidades.Transacao;
+import com.hblsistemas.uniparcentral.dtos.requests.TransacaoRequest;
+import com.hblsistemas.uniparcentral.dtos.responses.TransacaoResponse;
 
 public interface TransacaoPortaServico {
 	
-	public Transacao inserir(Transacao transacao);
-	public List<Transacao> acharTodos(Long conta_id);
+	public TransacaoResponse inserir(TransacaoRequest transacao);
+	public List<TransacaoResponse> acharTodos(Long conta_id);
 }

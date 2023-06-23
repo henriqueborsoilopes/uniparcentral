@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hblsistemas.uniparcentral.entidades.Banco;
+import com.hblsistemas.uniparcentral.dtos.requests.BancoRequest;
+import com.hblsistemas.uniparcentral.dtos.responses.BancoResponse;
 import com.hblsistemas.uniparcentral.servicos.portas.BancoPortaServico;
 
 @RestController
@@ -26,25 +27,25 @@ public class BancoControlador {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> inserir(@RequestBody Banco banco) {
+	public ResponseEntity<Void> inserir(@RequestBody BancoRequest banco) {
 		bancoServico.inserir(banco);
 		return ResponseEntity.ok().build();
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Banco>> acharTodos() {
-		List<Banco> bancos = bancoServico.acharTodos();
+	public ResponseEntity<List<BancoResponse>> acharTodos() {
+		List<BancoResponse> bancos = bancoServico.acharTodos();
 		return ResponseEntity.ok().body(bancos);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Banco> acharPorId(@PathVariable Long id) {
-		Banco banco = bancoServico.acharPorId(id);
+	public ResponseEntity<BancoResponse> acharPorId(@PathVariable Long id) {
+		BancoResponse banco = bancoServico.acharPorId(id);
 		return ResponseEntity.ok().body(banco);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody Banco banco) {
+	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody BancoRequest banco) {
 		bancoServico.atualizar(banco, id);
 		return ResponseEntity.ok().build();
 	}

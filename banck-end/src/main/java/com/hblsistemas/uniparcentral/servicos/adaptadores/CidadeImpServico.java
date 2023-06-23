@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.hblsistemas.uniparcentral.dtos.requests.CidadeRequest;
+import com.hblsistemas.uniparcentral.dtos.responses.CidadeResponse;
 import com.hblsistemas.uniparcentral.entidades.Cidade;
+import com.hblsistemas.uniparcentral.modelmapper.CidadeMapper;
 import com.hblsistemas.uniparcentral.repositorios.portas.CidadePortaRepositorio;
 import com.hblsistemas.uniparcentral.servicos.portas.CidadePortaServico;
 import com.hblsistemas.uniparcentral.servicos.validacoes.CidadeValidacao;
@@ -13,35 +16,34 @@ import com.hblsistemas.uniparcentral.servicos.validacoes.CidadeValidacao;
 public class CidadeImpServico implements CidadePortaServico {
 	
 	private final CidadePortaRepositorio cidadePortaRepositorio;
-	private final EstadoImpServico estadoServico;
+	private final CidadeMapper mapper;
 	
-	public CidadeImpServico(CidadePortaRepositorio cidadePortaRepositorio, EstadoImpServico estadoServico) {
+	public CidadeImpServico(CidadePortaRepositorio cidadePortaRepositorio, CidadeMapper mapper) {
 		this.cidadePortaRepositorio = cidadePortaRepositorio;
-		this.estadoServico = estadoServico;
+		this.mapper = mapper;
 	}
 	
 	@Override
-	public Cidade inserir(Cidade cidade) {
-		CidadeValidacao.validarTodosCamposParaInserir(cidade);
-		return cidadePortaRepositorio.inserir(cidade);
+	public CidadeResponse inserir(CidadeRequest request) {
+		CidadeValidacao.validarTodosCamposParaInserir(request);
+		return mapper.paraResposta(cidadePortaRepositorio.inserir(mapper.paraEntidade(request)));
 	}
 	
 	@Override
-	public List<Cidade> acharTodos() {
-		return cidadePortaRepositorio.acharTodos();
+	public List<CidadeResponse> acharTodos() {
+		return mapper.paraRespostaLista(cidadePortaRepositorio.acharTodos());
 	}
 	
 	@Override
-	public Cidade acharPorId(Long id) {
+	public CidadeResponse acharPorId(Long id) {
 		Cidade cidade = cidadePortaRepositorio.acharPorId(id);
-		cidade.setEstado(estadoServico.acharPorId(cidade.getEstado().getId()));
-		return cidade;
+		return mapper.paraResposta(cidade);
 	}
 	
 	@Override
-	public void atualizar(Cidade cidade, Long id) {
-		CidadeValidacao.validarTodosCamposParaUpdate(cidade);
-		cidadePortaRepositorio.atualizar(cidade, id);
+	public void atualizar(CidadeRequest request, Long id) {
+		CidadeValidacao.validarTodosCamposParaUpdate(request);
+		cidadePortaRepositorio.atualizar(mapper.paraEntidade(request), id);
 	}
 	
 	@Override

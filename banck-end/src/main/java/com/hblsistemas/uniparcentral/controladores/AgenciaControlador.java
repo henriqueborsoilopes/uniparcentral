@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hblsistemas.uniparcentral.dtos.requests.AgenciaRequest;
+import com.hblsistemas.uniparcentral.dtos.responses.AgenciaResponse;
 import com.hblsistemas.uniparcentral.servicos.portas.AgenciaPortaServico;
 
 @RestController
@@ -32,14 +33,14 @@ public class AgenciaControlador {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<AgenciaRequest>> acharTodos() {
-		List<AgenciaRequest> agenciasDTO = agenciaServico.acharTodos();
+	public ResponseEntity<List<AgenciaResponse>> acharTodos() {
+		List<AgenciaResponse> agenciasDTO = agenciaServico.acharTodos();
 		return ResponseEntity.ok().body(agenciasDTO);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<AgenciaRequest> acharPorId(@PathVariable Long id) {
-		AgenciaRequest agenciaDTO = agenciaServico.acharPorId(id);
+	public ResponseEntity<AgenciaResponse> acharPorId(@PathVariable Long id) {
+		AgenciaResponse agenciaDTO = agenciaServico.acharPorId(id);
 		return ResponseEntity.ok().body(agenciaDTO);
 	}
 	

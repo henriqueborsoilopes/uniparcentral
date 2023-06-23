@@ -2,6 +2,8 @@ package com.hblsistemas.uniparcentral.dtos.requests;
 
 import java.io.Serializable;
 
+import com.hblsistemas.uniparcentral.entidades.enums.TipoOperadora;
+
 public class TelefoneRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -9,20 +11,20 @@ public class TelefoneRequest implements Serializable {
 	private String registroAluno;
 	private String numero;
 	private Integer tipoOperadora;
-	private Long titularAgencia_id;
-	private Long titularPessoa_id;
+	private Long titularAgenciaId;
+	private Long titularPessoaId;
 	
 	public TelefoneRequest() { }
 
-	public TelefoneRequest(Long id, String registroAluno, String numero, Integer tipoOperadora, Long titularAgencia_id,
-			Long titularPessoa_id) {
+	public TelefoneRequest(Long id, String registroAluno, String numero, Integer tipoOperadora, Long titularAgenciaId,
+			Long titularPessoaId) {
 		super();
 		this.id = id;
 		this.registroAluno = registroAluno;
 		this.numero = numero;
 		this.tipoOperadora = tipoOperadora;
-		this.titularAgencia_id = titularAgencia_id;
-		this.titularPessoa_id = titularPessoa_id;
+		this.titularAgenciaId = titularAgenciaId;
+		this.titularPessoaId = titularPessoaId;
 	}
 
 	public Long getId() {
@@ -49,27 +51,27 @@ public class TelefoneRequest implements Serializable {
 		this.numero = numero;
 	}
 
-	public Integer getTipoOperadora() {
-		return tipoOperadora;
+	public TipoOperadora getTipoOperadora() {
+		return TipoOperadora.paraEnum(tipoOperadora);
 	}
 
 	public void setTipoOperadora(Integer tipoOperadora) {
 		this.tipoOperadora = tipoOperadora;
 	}
 
-	public Long getTitularAgencia_id() {
-		return titularAgencia_id;
+	public Long getTitularAgenciaId() {
+		return titularAgenciaId;
 	}
 
-	public void setTitularAgencia_id(Long titularAgencia_id) {
-		this.titularAgencia_id = titularAgencia_id;
+	public void setTitularAgenciaId(Long titularAgenciaId) {
+		this.titularAgenciaId = titularAgenciaId;
 	}
 
-	public Long getTitularPessoa_id() {
-		return titularPessoa_id;
+	public Long getTitularPessoaId() {
+		return titularPessoaId;
 	}
 
-	public void setTitularPessoa_id(Long titularPessoa_id) {
-		this.titularPessoa_id = titularPessoa_id;
+	public void setTitularPessoaId(Long titularPessoaId) {
+		this.titularPessoaId = titularPessoaId;
 	}
 }

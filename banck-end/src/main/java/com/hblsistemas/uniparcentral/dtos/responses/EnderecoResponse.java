@@ -1,8 +1,8 @@
-package com.hblsistemas.uniparcentral.dtos.response;
+package com.hblsistemas.uniparcentral.dtos.responses;
 
 import java.io.Serializable;
 
-public class EnderecoResponde implements Serializable {
+public class EnderecoResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
@@ -12,9 +12,9 @@ public class EnderecoResponde implements Serializable {
 	private String cep;
 	private String complemento;
 	
-	public EnderecoResponde() { }
+	public EnderecoResponse() { }
 
-	public EnderecoResponde(Long id, String logradouro, String numero, String bairro, String cep, String complemento) {
+	public EnderecoResponse(Long id, String logradouro, String numero, String bairro, String cep, String complemento) {
 		super();
 		this.id = id;
 		this.logradouro = logradouro;

@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.hblsistemas.uniparcentral.entidades.Pais;
+import com.hblsistemas.uniparcentral.dtos.requests.PaisRequest;
+import com.hblsistemas.uniparcentral.dtos.responses.PaisResponse;
+import com.hblsistemas.uniparcentral.modelmapper.PaisMapper;
 import com.hblsistemas.uniparcentral.repositorios.portas.PaisPortaRepositorio;
 import com.hblsistemas.uniparcentral.servicos.portas.PaisPortaServico;
 import com.hblsistemas.uniparcentral.servicos.validacoes.PaisValidacao;
@@ -13,31 +15,33 @@ import com.hblsistemas.uniparcentral.servicos.validacoes.PaisValidacao;
 public class PaisImpServico implements PaisPortaServico {
 	
 	private final PaisPortaRepositorio paisRepositorioPorta;
+	private final PaisMapper mapper;
 	
-	public PaisImpServico(PaisPortaRepositorio paisRepositorioPorta) {
+	public PaisImpServico(PaisPortaRepositorio paisRepositorioPorta, PaisMapper mapper) {
 		this.paisRepositorioPorta = paisRepositorioPorta;
+		this.mapper = mapper;
 	}
 	
 	@Override
-	public Pais inserir(Pais pais) {
-		PaisValidacao.validarTodosCampos(pais);
-		return paisRepositorioPorta.inserir(pais);
+	public PaisResponse inserir(PaisRequest request) {
+		PaisValidacao.validarTodosCampos(request);
+		return mapper.paraResposta(paisRepositorioPorta.inserir(mapper.paraEntidade(request)));
 	}
 	
 	@Override
-	public List<Pais> acharTodos() {
-		return paisRepositorioPorta.acharTodos();
+	public List<PaisResponse> acharTodos() {
+		return mapper.paraRespostaLista(paisRepositorioPorta.acharTodos());
 	}
 	
 	@Override
-	public Pais acharPorId(Long id) {
-		return paisRepositorioPorta.acharPorId(id);
+	public PaisResponse acharPorId(Long id) {
+		return mapper.paraResposta(paisRepositorioPorta.acharPorId(id));
 	}
 	
 	@Override
-	public void atualizar(Pais pais, Long id) {
-		PaisValidacao.validarTodosCampos(pais);
-		paisRepositorioPorta.atualizar(pais, id);
+	public void atualizar(PaisRequest request, Long id) {
+		PaisValidacao.validarTodosCampos(request);
+		paisRepositorioPorta.atualizar(mapper.paraEntidade(request), id);
 	}
 	
 	@Override

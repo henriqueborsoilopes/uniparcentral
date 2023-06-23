@@ -1,17 +1,17 @@
-package com.hblsistemas.uniparcentral.dtos.response;
+package com.hblsistemas.uniparcentral.dtos.responses;
 
 import java.io.Serializable;
 
-public class TelefoneResponde implements Serializable {
+public class TelefoneResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
 	private String numero;
 	private Integer tipoOperadora;
 	
-	public TelefoneResponde() { }
+	public TelefoneResponse() { }
 
-	public TelefoneResponde(Long id, String numero, Integer tipoOperadora) {
+	public TelefoneResponse(Long id, String numero, Integer tipoOperadora) {
 		super();
 		this.id = id;
 		this.numero = numero;

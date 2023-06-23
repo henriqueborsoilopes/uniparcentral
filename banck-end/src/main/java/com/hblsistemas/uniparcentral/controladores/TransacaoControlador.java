@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hblsistemas.uniparcentral.entidades.Transacao;
+import com.hblsistemas.uniparcentral.dtos.requests.TransacaoRequest;
+import com.hblsistemas.uniparcentral.dtos.responses.TransacaoResponse;
 import com.hblsistemas.uniparcentral.servicos.portas.TransacaoPortaServico;
 
 @RestController
@@ -24,14 +25,14 @@ public class TransacaoControlador {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> inserir(@RequestBody Transacao transacao) {
+	public ResponseEntity<Void> inserir(@RequestBody TransacaoRequest transacao) {
 		transacaoServico.inserir(transacao);
 		return ResponseEntity.ok().build();
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<List<Transacao>> acharTodos(@PathVariable Long conta_id) {
-		List<Transacao> transacoes = transacaoServico.acharTodos(conta_id);
+	public ResponseEntity<List<TransacaoResponse>> acharTodos(@PathVariable Long conta_id) {
+		List<TransacaoResponse> transacoes = transacaoServico.acharTodos(conta_id);
 		return ResponseEntity.ok().body(transacoes);
 	}
 }

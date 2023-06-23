@@ -2,13 +2,14 @@ package com.hblsistemas.uniparcentral.servicos.portas;
 
 import java.util.List;
 
-import com.hblsistemas.uniparcentral.entidades.Telefone;
+import com.hblsistemas.uniparcentral.dtos.requests.TelefoneRequest;
+import com.hblsistemas.uniparcentral.dtos.responses.TelefoneResponse;
 
 public interface TelefonePortaServico {
 	
-	public Telefone inserir(Telefone pessoa);
-	public List<Telefone> acharTodos();
-	public Telefone acharPorId(Long id);
-	public void atualizar(Telefone telefone, Long id);
+	public TelefoneResponse inserir(TelefoneRequest telefone);
+	public List<TelefoneResponse> acharTodos();
+	public TelefoneResponse acharPorId(Long id);
+	public void atualizar(TelefoneRequest telefone, Long id);
 	public void deletar(Long id);
 }

@@ -1,11 +1,11 @@
-package com.hblsistemas.uniparcentral.dtos.response;
+package com.hblsistemas.uniparcentral.dtos.responses;
 
 import java.io.Serializable;
 
 import com.hblsistemas.uniparcentral.entidades.Agencia;
 import com.hblsistemas.uniparcentral.entidades.abstratas.Pessoa;
 
-public class ContaResponde implements Serializable {
+public class ContaResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
@@ -16,9 +16,9 @@ public class ContaResponde implements Serializable {
 	private Agencia agenciaId;
 	private Pessoa titularId;
 	
-	public ContaResponde() { }
+	public ContaResponse() { }
 
-	public ContaResponde(Long id, String numero, String digito, Double saldo, Integer tipoConta, Agencia agenciaId,
+	public ContaResponse(Long id, String numero, String digito, Double saldo, Integer tipoConta, Agencia agenciaId,
 			Pessoa titularId) {
 		super();
 		this.id = id;

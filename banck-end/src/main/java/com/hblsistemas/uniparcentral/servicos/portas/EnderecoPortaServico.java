@@ -2,13 +2,14 @@ package com.hblsistemas.uniparcentral.servicos.portas;
 
 import java.util.List;
 
-import com.hblsistemas.uniparcentral.entidades.Endereco;
+import com.hblsistemas.uniparcentral.dtos.requests.EnderecoRequest;
+import com.hblsistemas.uniparcentral.dtos.responses.EnderecoResponse;
 
 public interface EnderecoPortaServico {
 	
-	public Endereco inserir(Endereco endereco);
-	public List<Endereco> acharTodos();
-	public Endereco acharPorId(Long id);
-	public void atualizar(Endereco endereco, Long id);
+	public EnderecoResponse inserir(EnderecoRequest endereco);
+	public List<EnderecoResponse> acharTodos();
+	public EnderecoResponse acharPorId(Long id);
+	public void atualizar(EnderecoRequest endereco, Long id);
 	public void deletar(Long id);
 }

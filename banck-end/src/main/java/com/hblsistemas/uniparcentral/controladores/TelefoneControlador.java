@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hblsistemas.uniparcentral.entidades.Telefone;
+import com.hblsistemas.uniparcentral.dtos.requests.TelefoneRequest;
+import com.hblsistemas.uniparcentral.dtos.responses.TelefoneResponse;
 import com.hblsistemas.uniparcentral.servicos.portas.TelefonePortaServico;
 
 @RestController
@@ -26,25 +27,25 @@ public class TelefoneControlador {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> inserir(@RequestBody Telefone telefone) {
-		telefoneServico.inserir(telefone);
+	public ResponseEntity<Void> inserir(@RequestBody TelefoneRequest request) {
+		telefoneServico.inserir(request);
 		return ResponseEntity.ok().build();
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Telefone>> acharTodos() {
-		List<Telefone> telefones = telefoneServico.acharTodos();
+	public ResponseEntity<List<TelefoneResponse>> acharTodos() {
+		List<TelefoneResponse> telefones = telefoneServico.acharTodos();
 		return ResponseEntity.ok().body(telefones);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Telefone> acharPorId(@PathVariable Long id) {
-		Telefone telefone = telefoneServico.acharPorId(id);
+	public ResponseEntity<TelefoneResponse> acharPorId(@PathVariable Long id) {
+		TelefoneResponse telefone = telefoneServico.acharPorId(id);
 		return ResponseEntity.ok().body(telefone);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody Telefone telefone) {
+	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody TelefoneRequest telefone) {
 		telefoneServico.atualizar(telefone, id);
 		return ResponseEntity.ok().build();
 	}

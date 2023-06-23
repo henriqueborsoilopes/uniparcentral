@@ -1,24 +1,21 @@
 package com.hblsistemas.uniparcentral.servicos.validacoes;
 
-import com.hblsistemas.uniparcentral.entidades.Conta;
+import com.hblsistemas.uniparcentral.dtos.requests.ContaRequest;
 import com.hblsistemas.uniparcentral.servicos.excecoes.ValidacaoExcecao;
 
 public class ContaValidacao {
 	
-//	INSERT INTO conta (id, numero, digito, saldo, tipo, ra, agencia_id, pessoa_id)
-//	VALUES (33, '211498', '21', 582.35, 1, '00240508', 9, 15);
-
-	public static void validarTodosCampos(Conta conta) {
-		validarObjetoNulo(conta);
-		validarRegistroAluno(conta.getRegistroAluno());
-		validarAgenciaId(conta.getAgencia().getId());
-		validarNumero(conta.getNumero());
-		validarDigito(conta.getDigito());
-		validarTitularId(conta.getTitular().getId());
+	public static void validarTodosCampos(ContaRequest request) {
+		validarObjetoNulo(request);
+		validarRegistroAluno(request.getRegistroAluno());
+		validarAgenciaId(request.getAgencia_id());
+		validarNumero(request.getNumero());
+		validarDigito(request.getDigito());
+		validarTitularId(request.getTitular_id());
 	}
 
-	private static void validarObjetoNulo(Conta conta) {
-		if (conta == null) {
+	private static void validarObjetoNulo(ContaRequest request) {
+		if (request == null) {
 			throw new ValidacaoExcecao("Os dados da Conta são obrigatório o preenchimento.");
 		}
 	}

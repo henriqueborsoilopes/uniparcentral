@@ -1,17 +1,17 @@
 package com.hblsistemas.uniparcentral.servicos.validacoes;
 
-import com.hblsistemas.uniparcentral.entidades.Transacao;
+import com.hblsistemas.uniparcentral.dtos.requests.TransacaoRequest;
 import com.hblsistemas.uniparcentral.servicos.excecoes.ValidacaoExcecao;
 
 public class TransacaoValidacao {
 
-	public static void validarTodosCampos(Transacao transacao) {
-		validarObjetoNulo(transacao);
-		validarRegistroAluno(transacao.getRegistroAluno());
+	public static void validarTodosCampos(TransacaoRequest request) {
+		validarObjetoNulo(request);
+		validarRegistroAluno(request.getRegistroAluno());
 	}
 
-	private static void validarObjetoNulo(Transacao transacao) {
-		if (transacao == null) {
+	private static void validarObjetoNulo(TransacaoRequest request) {
+		if (request == null) {
 			throw new ValidacaoExcecao("Os dados da Conta são obrigatório o preenchimento.");
 		}
 	}

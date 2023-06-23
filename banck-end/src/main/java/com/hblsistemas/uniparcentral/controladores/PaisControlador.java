@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hblsistemas.uniparcentral.entidades.Pais;
+import com.hblsistemas.uniparcentral.dtos.requests.PaisRequest;
+import com.hblsistemas.uniparcentral.dtos.responses.PaisResponse;
 import com.hblsistemas.uniparcentral.servicos.portas.PaisPortaServico;
 
 @RestController
@@ -26,25 +27,25 @@ public class PaisControlador {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> inserir(@RequestBody Pais pais) {
+	public ResponseEntity<Void> inserir(@RequestBody PaisRequest pais) {
 		paisServico.inserir(pais);
 		return ResponseEntity.ok().build();
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Pais>> acharTodos() {
-		List<Pais> paises = paisServico.acharTodos();
+	public ResponseEntity<List<PaisResponse>> acharTodos() {
+		List<PaisResponse> paises = paisServico.acharTodos();
 		return ResponseEntity.ok().body(paises);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Pais> acharPorId(@PathVariable Long id) {
-		Pais pais = paisServico.acharPorId(id);
+	public ResponseEntity<PaisResponse> acharPorId(@PathVariable Long id) {
+		PaisResponse pais = paisServico.acharPorId(id);
 		return ResponseEntity.ok().body(pais);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody Pais pais) {
+	public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody PaisRequest pais) {
 		paisServico.atualizar(pais, id);
 		return ResponseEntity.ok().build();
 	}
